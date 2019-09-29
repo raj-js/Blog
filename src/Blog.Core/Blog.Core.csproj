@@ -9,8 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Services\" />
-    <Folder Include="Data\" />
+    <ProjectReference Include="..\Blog.Infrastructure\Blog.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
