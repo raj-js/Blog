@@ -16,10 +16,10 @@
                     <div slot="footer"><b>ant design vue</b> footer part</div>
                     <a-list-item slot="renderItem" slot-scope="item" key="item.title">
                         <template slot="actions" v-for="{type, text} in actions">
-        <span :key="type">
-          <a-icon :type="type" style="margin-right: 8px" />
-          {{text}}
-        </span>
+                            <span :key="type">
+                              <a-icon :type="type" style="margin-right: 8px" />
+                              {{text}}
+                            </span>
                         </template>
                         <img slot="extra" width="272" alt="logo" src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png" />
                         <a-list-item-meta
