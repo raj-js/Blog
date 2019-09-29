@@ -1,8 +1,10 @@
-﻿namespace Blog.Core.Models
+﻿using MongoDB.Bson;
+
+namespace Blog.Core.Models
 {
     public class Tag
     {
-        public int Id { get; set; }
+        public ObjectId Id { get; set; }
 
         public string Name { get; set; }
 

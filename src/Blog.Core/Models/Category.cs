@@ -1,10 +1,10 @@
-﻿using System;
+﻿using MongoDB.Bson;
 
 namespace Blog.Core.Models
 {
     public class Category
     {
-        public int Id { get; private set; }
+        public ObjectId Id { get; private set; }
 
         public string Name { get; private set; }
 

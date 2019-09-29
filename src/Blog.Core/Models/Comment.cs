@@ -1,12 +1,13 @@
-﻿using System;
+﻿using MongoDB.Bson;
+using System;
 
 namespace Blog.Core.Models
 {
     public class Comment
     {
-        public Guid Id { get; private set; }
+        public ObjectId Id { get; private set; }
 
-        public Guid ArticleId { get; private set; }
+        public ObjectId ArticleId { get; private set; }
 
         public string NickName { get; private set; }
 
