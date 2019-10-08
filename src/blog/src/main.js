@@ -1,15 +1,16 @@
-import Vue from 'vue'
-import Ant from 'ant-design-vue'
+import Vue from "vue";
+import ElementUI from "element-ui";
 
-import App from './App.vue'
-import router from './router'
-import 'ant-design-vue/dist/antd.css'
+import App from "./App.vue";
+import router from "./router";
+import store from "./store";
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
 
-Vue.use(Ant)
+Vue.use(ElementUI);
 
 new Vue({
   router,
-  render: h => h(App),
-}).$mount('#app')
+  store,
+  render: h => h(App)
+}).$mount("#app");
