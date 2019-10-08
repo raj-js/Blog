@@ -5,7 +5,7 @@ namespace Blog.Core.Models
 {
     public class Article
     {
-        public ObjectId Id { get; private set; }
+        public string Id { get; private set; }
 
         public string Title { get; private set; }
 

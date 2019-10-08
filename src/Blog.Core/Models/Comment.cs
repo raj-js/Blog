@@ -1,19 +1,18 @@
-﻿using MongoDB.Bson;
-using System;
+﻿using System;
 
 namespace Blog.Core.Models
 {
     public class Comment
     {
-        public ObjectId Id { get; private set; }
+        public string Id { get; private set; }
 
-        public ObjectId ArticleId { get; private set; }
+        public string ArticleId { get; private set; }
 
-        public string NickName { get; private set; }
+        public string Poster { get; private set; }
 
         public string Content { get; private set; }
 
-        public string Ip { get; private set; }
+        public string PosterIp { get; private set; }
 
         public bool IsAnonymous { get; private set; }
 

@@ -1,13 +1,11 @@
-﻿using MongoDB.Bson;
-
-namespace Blog.Core.Models
+﻿namespace Blog.Core.Models
 {
     public class Tag
     {
-        public ObjectId Id { get; set; }
+        public string Id { get; private set; }
 
-        public string Name { get; set; }
+        public string Name { get; private set; }
 
-        public bool Enable { get; set; }
+        public bool Enable { get; private set; }
     }
 }
