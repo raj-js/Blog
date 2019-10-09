@@ -18,7 +18,7 @@ namespace Blog.Core.Services
         /// string 关键词
         /// </param>
         /// <returns></returns>
-        Task<Paged<Article>> PagingQuery(Pager<(Category, Tag, string)> pager);
+        Task<Paged<Article>> Paging(Pager<(Category, Tag, string)> pager);
 
         /// <summary>
         /// 根据文章编号查找
