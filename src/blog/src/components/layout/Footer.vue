@@ -1,11 +1,11 @@
 <template>
-    <el-row class="footer" type="flex" justify="center">
-        <el-col :span="24">
+    <a-row class="footer" type="flex" justify="center" align="bottom">
+        <a-col :span="24">
             <p>Copyright &copy; 2019 Mr Raj</p>
             <p>Power By .Net Core 3.0.0 on Linux</p>
             <p></p>
-        </el-col>
-    </el-row>
+        </a-col>
+    </a-row>
 </template>
 
 <style>

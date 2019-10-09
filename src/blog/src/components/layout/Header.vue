@@ -1,32 +1,41 @@
 <template>
-    <el-row class="header fixed" :type="flex" :justify="center">
-        <el-col :span="15" :push="3">
-            <h1 class="title">
+    <a-row class="header" type="flex" justify="start" align="top">
+        <a-col class="title" :span="18" :push="2">
+            <h1>
                 Raj's Blog
                 <span class="signature">做到极致，便是大师</span>
             </h1>
-        </el-col>
-        <el-col class="nav" :span="6">
-            <el-menu default-active="article" mode="horizontal" router="true">
-                <el-menu-item index="article">文章</el-menu-item>
-                <el-menu-item index="live">生活</el-menu-item>
-            </el-menu>
-        </el-col>
-    </el-row>
+        </a-col>
+        <a-col class="nav" :span="3">
+            <a-menu :defaultSelectedKeys="['home']" mode="horizontal" >
+                <a-menu-item key="home">
+                    首页
+                </a-menu-item>
+                <a-menu-item key="article">
+                    文章
+                </a-menu-item>
+                <a-menu-item key="live">
+                    生活
+                </a-menu-item>
+            </a-menu>
+        </a-col>
+    </a-row>
 </template>
 
 <style scoped>
 .header {
-    height: 60px;
+    height: 50px;
     background: #fff;
     border-bottom: 1px #eef2e8 solid;
     margin: 0 auto;
     overflow: hidden;
+    position: relative;
 }
 
 .header .title {
     clear: both;
-    line-height: 20px;
+    line-height: 50px;
+    vertical-align: middle;
 }
 
 .header .title .signature {

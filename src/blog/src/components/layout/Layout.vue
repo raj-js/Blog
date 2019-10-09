@@ -1,9 +1,9 @@
 <template>
     <div>
         <Header />
-        <el-row>
+        <div class="main">
             <slot></slot>
-        </el-row>
+        </div>
         <Footer />
     </div>
 </template>
@@ -20,3 +20,10 @@ export default {
     }
 }
 </script>
+
+<style>
+.main {
+    margin: 0px;
+    padding: 15px;
+}
+</style>
