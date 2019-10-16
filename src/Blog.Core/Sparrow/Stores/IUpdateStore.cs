@@ -1,14 +1,18 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace Blog.Core.Sparrow.Stores
 {
     public interface IUpdateStore<TEntity> : IUpdateStore<TEntity, int> where TEntity : IEntity
-    { 
-    
+    {
+
     }
 
-    public interface IUpdateStore<TEntity, TKey> where TEntity : IEntity<TKey>
+    public interface IUpdateStore<TEntity, TKey>
+        where TEntity : IEntity<TKey>
+        where TKey : IEquatable<TKey>
     {
         /// <summary>
         /// 更新实体
@@ -40,5 +44,20 @@ namespace Blog.Core.Sparrow.Stores
         /// <returns></returns>
         Task<TEntity> UpdateAsync(TKey id, Func<TEntity, Task> updateAction);
 
+        /// <summary>
+        /// 部分更新
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="selectors"></param>
+        /// <returns></returns>
+        TEntity Update(TKey id, params (string Field, object Value)[] selectors);
+
+        /// <summary>
+        /// 异步部分更新
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="selectors"></param>
+        /// <returns></returns>
+        Task<TEntity> UpdateAsync(TKey id, params (string Field, object Value)[] selectors);
     }
 }

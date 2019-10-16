@@ -1,9 +1,9 @@
-﻿using MongoDB.Bson;
+﻿using Blog.Core.Sparrow;
 using System;
 
 namespace Blog.Core.Models
 {
-    public class Article
+    public class Article : IEntity<string>
     {
         public string Id { get; private set; }
 

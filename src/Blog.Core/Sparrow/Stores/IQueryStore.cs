@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -6,11 +7,13 @@ using System.Threading.Tasks;
 namespace Blog.Core.Sparrow.Stores
 {
     public interface IQueryStore<TEntity> : IQueryStore<TEntity, int> where TEntity : IEntity
-    { 
-    
+    {
+
     }
 
-    public interface IQueryStore<TEntity, TKey> where TEntity : IEntity<TKey>
+    public interface IQueryStore<TEntity, TKey>
+        where TEntity : IEntity<TKey>
+        where TKey : IEquatable<TKey>
     {
         /// <summary>
         /// 获取所有实体作为 IQueryable<>
@@ -59,5 +62,51 @@ namespace Blog.Core.Sparrow.Stores
         /// <param name="predicate"></param>
         /// <returns></returns>
         Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate);
+
+        /// <summary>
+        /// 分页查询
+        /// </summary>
+        /// <param name="predicate">查询条件</param>
+        /// <param name="sorters">排序字段</param>
+        /// <param name="index">页码 （从 1 开始）</param>
+        /// <param name="size">每页条目数</param>
+        /// <returns>Entities 结果集， Total 总条目</returns>
+        Task<(IEnumerable<TEntity> Entities, long Total)> PageQuery(Expression<Func<TEntity, bool>> predicate, (string field, bool asc)[] sorters, int index, int size);
+
+        /// <summary>
+        /// 分页查询
+        /// </summary>
+        /// <param name="predicate">查询条件</param>
+        /// <param name="sorters">排序字段</param>
+        /// <param name="index">页码 （从 1 开始）</param>
+        /// <param name="size">每页条目数</param>
+        /// <returns>Entities 结果集， Total 总条目</returns>
+        Task<(IEnumerable<TEntity> Entities, long Total)> PageQuery(Expression<Func<TEntity, bool>> predicate, (Expression<Func<TEntity, object>> selector, bool asc)[] sorters, int index, int size);
+
+        /// <summary>
+        /// 获得实体总数
+        /// </summary>
+        /// <returns></returns>
+        long Count();
+
+        /// <summary>
+        /// 异步获得实体总数
+        /// </summary>
+        /// <returns></returns>
+        Task<long> CountAsync();
+
+        /// <summary>
+        /// 获取满足 predicate 的实体总数
+        /// </summary>
+        /// <param name="predicate"></param>
+        /// <returns></returns>
+        long Count(Expression<Func<TEntity, bool>> predicate);
+
+        /// <summary>
+        /// 异步获取满足 predicate 的实体总数
+        /// </summary>
+        /// <param name="predicate"></param>
+        /// <returns></returns>
+        Task<long> CountAsync(Expression<Func<TEntity, bool>> predicate);
     }
 }

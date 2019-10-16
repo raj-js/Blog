@@ -1,8 +1,10 @@
-﻿namespace Blog.Core.Sparrow
+﻿using System;
+
+namespace Blog.Core.Sparrow
 {
-    public interface IEntity<TKey>
+    public interface IEntity<TKey> where TKey : IEquatable<TKey>
     {
-        TKey Id { get; set; }
+        TKey Id { get; }
     }
 
     public interface IEntity : IEntity<int>
