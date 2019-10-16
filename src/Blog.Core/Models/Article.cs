@@ -5,18 +5,24 @@ namespace Blog.Core.Models
 {
     public class Article : IEntity<string>
     {
-        public string Id { get; private set; }
+        public string Id { get; set; }
 
-        public string Title { get; private set; }
+        public string Title { get; set; }
 
-        public string Digest { get; private set; }
+        public string Digest { get; set; }
 
-        public string Content { get; private set; }
+        public string Content { get; set; }
 
-        public bool IsDraft { get; private set; }
+        public int Reads { get; set; }
 
-        public bool IsDeleted { get; private set; }
+        public int Likes { get; set; }
 
-        public DateTime Creation { get; private set; }
+        public bool IsTop { get; set; }
+
+        public bool IsDraft { get; set; }
+
+        public bool IsDeleted { get; set; }
+
+        public DateTime Creation { get; set; }
     }
 }

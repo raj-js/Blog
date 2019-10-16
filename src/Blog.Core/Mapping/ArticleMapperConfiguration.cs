@@ -1,19 +1,15 @@
 ﻿using AutoMapper;
+using Blog.Core.Dtos;
 using Blog.Core.Models;
 using Blog.Core.Sparrow.Mapping;
 
 namespace Blog.Core.Mapping
 {
-    public class ArticleDTO
+    public class ArticleMapperConfiguration : MapperConfigurationBase<Article, ArticleCreateReqDto, ArticleUpdateReqDto, ArticleRespDto>, IMapperConfiguration<Article, ArticleCreateReqDto, ArticleUpdateReqDto, ArticleRespDto>
     {
-
-    }
-
-    public class ArticleMapperConfiguration : IMapperConfiguration<Article, ArticleDTO>
-    {
-        public void Config(IMapperConfigurationExpression cfg)
+        public override void Config(IMapperConfigurationExpression cfg)
         {
-            // cfg.CreateMap<Article, ArticleDTO>().ForMember()
+            base.Config(cfg);
         }
     }
 }

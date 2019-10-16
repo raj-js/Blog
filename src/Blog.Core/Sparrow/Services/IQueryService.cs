@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace Blog.Core.Sparrow.Services
 {
-    public interface IQueryService<TEntity, TKey, TReqDto, TRespDto>
+    public interface IQueryService<TEntity, TKey, TRespDto>
         where TEntity : IEntity<TKey>
         where TKey : IEquatable<TKey>
     {

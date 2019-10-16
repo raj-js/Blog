@@ -10,19 +10,17 @@ namespace Blog.Core.Sparrow.Services
     public abstract class ServiceBase
         <
         TEntity, TKey,
-        TReqDto,
         TCreateReqDto, TUpdateReqDto,
         TRespDto
         > :
 
         ICreateService<TEntity, TKey, TCreateReqDto, TRespDto>,
-        IRemoveService<TEntity, TKey, TReqDto>,
+        IRemoveService<TEntity, TKey>,
         IUpdateService<TEntity, TKey, TUpdateReqDto, TRespDto>,
-        IQueryService<TEntity, TKey, TReqDto, TRespDto>,
+        IQueryService<TEntity, TKey, TRespDto>,
         ICurlService
         <
         TEntity, TKey,
-        TReqDto,
         TCreateReqDto, TUpdateReqDto,
         TRespDto
         >
@@ -30,19 +28,19 @@ namespace Blog.Core.Sparrow.Services
         where TEntity : IEntity<TKey>
         where TKey : IEquatable<TKey>
     {
-        private readonly IMapper _mapper;
+        protected IMapper Mapper { get; private set; }
         private readonly ICurlStore<TEntity, TKey> _store;
 
         public ServiceBase(IMapper mapper, ICurlStore<TEntity, TKey> store)
         {
-            _mapper = mapper;
+            Mapper = mapper;
             _store = store;
         }
 
         #region protected
 
-        protected virtual TEntity ToEntity(object req) => _mapper.Map<TEntity>(req);
-        protected virtual TRespDto ToRespDto(TEntity entity) => _mapper.Map<TRespDto>(entity);
+        protected virtual TEntity ToEntity(object req) => Mapper.Map<TEntity>(req);
+        protected virtual TRespDto ToRespDto(TEntity entity) => Mapper.Map<TRespDto>(entity);
 
         #endregion
 
@@ -102,19 +100,9 @@ namespace Blog.Core.Sparrow.Services
             return ToRespDto(entity);
         }
 
-        public bool Remove(TReqDto reqDto)
-        {
-            return _store.Remove(ToEntity(reqDto));
-        }
-
         public bool Remove(TKey id)
         {
             return _store.Remove(id);
-        }
-
-        public Task<bool> RemoveAsync(TReqDto reqDto)
-        {
-            return _store.RemoveAsync(ToEntity(reqDto));
         }
 
         public Task<bool> RemoveAsync(TKey id)

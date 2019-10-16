@@ -2,16 +2,13 @@
 
 namespace Blog.Core.Sparrow.Mapping
 {
-    public abstract class MapperConfigurationBase<TSrc, TDest> : IMapperConfiguration<TSrc, TDest>
+    public abstract class MapperConfigurationBase<TEntity, TCreateReqDto, TUpdateReqDto, TRespDto> : IMapperConfiguration<TEntity, TCreateReqDto, TUpdateReqDto, TRespDto>
     {
-        public void Config(IMapperConfigurationExpression cfg)
+        public virtual void Config(IMapperConfigurationExpression cfg)
         {
-            MapSrc(cfg.CreateMap<TSrc, TDest>());
-            MapDest(cfg.CreateMap<TDest, TSrc>());
+            cfg.CreateMap<TCreateReqDto, TEntity>();
+            cfg.CreateMap<TUpdateReqDto, TEntity>();
+            cfg.CreateMap<TEntity, TRespDto>();
         }
-
-        public abstract void MapSrc(IMappingExpression<TSrc, TDest> expression);
-
-        public abstract void MapDest(IMappingExpression<TDest, TSrc> expression);
     }
 }

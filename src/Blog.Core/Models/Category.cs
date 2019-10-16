@@ -11,7 +11,5 @@ namespace Blog.Core.Models
         public int Order { get; private set; }
 
         public bool Enable { get; private set; }
-
-        public int? ParentId { get; private set; }
     }
 }

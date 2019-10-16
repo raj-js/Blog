@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Blog.Core.Services
+namespace Blog.Core.Dtos
 {
-    public interface IQueryService
+    public class ArticleRespDto
     {
-
     }
 }
