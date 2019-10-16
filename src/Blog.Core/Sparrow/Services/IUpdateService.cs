@@ -3,38 +3,38 @@ using System.Threading.Tasks;
 
 namespace Blog.Core.Sparrow.Services
 {
-    public interface IUpdateService<TEntity, TKey, TReq, TResp>
+    public interface IUpdateService<TEntity, TKey, TReqDto, TRespDto>
         where TEntity : IEntity<TKey>
         where TKey : IEquatable<TKey>
     {
         /// <summary>
         /// 更新实体
         /// </summary>
-        /// <param name="entity"></param>
+        /// <param name="reqDto"></param>
         /// <returns></returns>
-        TResp Update(TReq entity);
+        TRespDto Update(TReqDto reqDto);
 
         /// <summary>
         /// 异步更新实体
         /// </summary>
-        /// <param name="entity"></param>
+        /// <param name="reqDto"></param>
         /// <returns></returns>
-        Task<TResp> UpdateAsync(TReq entity);
+        Task<TRespDto> UpdateAsync(TReqDto reqDto);
 
         /// <summary>
-        /// 根据唯一标识更新实体
+        /// 部分更新
         /// </summary>
         /// <param name="id"></param>
-        /// <param name="updateAction"></param>
+        /// <param name="selectors"></param>
         /// <returns></returns>
-        TResp Update(TKey id, Action<TReq> updateAction);
+        TRespDto Update(TKey id, params (string Field, object Value)[] selectors);
 
         /// <summary>
-        /// 异步根据唯一标识更新实体
+        /// 异步部分更新
         /// </summary>
         /// <param name="id"></param>
-        /// <param name="updateAction"></param>
+        /// <param name="selectors"></param>
         /// <returns></returns>
-        Task<TResp> UpdateAsync(TKey id, Func<TReq, Task> updateAction);
+        Task<TRespDto> UpdateAsync(TKey id, params (string Field, object Value)[] selectors);
     }
 }

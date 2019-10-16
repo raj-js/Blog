@@ -1,50 +1,36 @@
 ﻿using System;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace Blog.Core.Sparrow.Services
 {
-    public interface IRemoveService<TEntity, TKey, TReq, TResp>
+    public interface IRemoveService<TEntity, TKey, TReqDto>
         where TEntity : IEntity<TKey>
         where TKey : IEquatable<TKey>
     {
         /// <summary>
         /// 删除实体
         /// </summary>
-        /// <param name="entity"></param>
-        void Remove(TReq entity);
+        /// <param name="reqDto"></param>
+        bool Remove(TReqDto reqDto);
 
         /// <summary>
         /// 异步删除实体
         /// </summary>
-        /// <param name="entity"></param>
+        /// <param name="reqDto"></param>
         /// <returns></returns>
-        Task RemoveAsync(TReq entity);
+        Task<bool> RemoveAsync(TReqDto reqDto);
 
         /// <summary>
         /// 删除指定唯一标识的实体
         /// </summary>
         /// <param name="id"></param>
-        void Remove(TKey id);
+        bool Remove(TKey id);
 
         /// <summary>
         /// 异步删除指定唯一标识的实体
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        Task RemoveAsync(TKey id);
-
-        /// <summary>
-        /// 删除满足 predicate 的实体
-        /// </summary>
-        /// <param name="predicate"></param>
-        void Remove(Expression<Func<TReq, bool>> predicate);
-
-        /// <summary>
-        /// 异步删除满足 predicate 的实体
-        /// </summary>
-        /// <param name="predicate"></param>
-        /// <returns></returns>
-        Task RemoveAsync(Expression<Func<TReq, bool>> predicate);
+        Task<bool> RemoveAsync(TKey id);
     }
 }

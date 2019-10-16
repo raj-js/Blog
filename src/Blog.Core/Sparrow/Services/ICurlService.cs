@@ -2,31 +2,18 @@
 
 namespace Blog.Core.Sparrow.Services
 {
-    public interface ICurlService<
+    public interface ICurlService
+        <
         TEntity, TKey,
-        TCreateReq, TUpdateReq, TReq,
-        TCreateResp, TUpdateResp, TResp
+        TReqDto,
+        TCreateReqDto, TUpdateReqDto,
+        TRespDto
         > :
-        ICurlService<
-            TEntity, TKey,
-            TCreateReq, TReq, TUpdateReq, TReq,
-            TCreateResp, TResp, TUpdateResp, TResp
-            >
-        where TEntity : IEntity<TKey>
-        where TKey : IEquatable<TKey>
-    {
+        ICreateService<TEntity, TKey, TCreateReqDto, TRespDto>,
+        IRemoveService<TEntity, TKey, TReqDto>,
+        IUpdateService<TEntity, TKey, TUpdateReqDto, TRespDto>,
+        IQueryService<TEntity, TKey, TReqDto, TRespDto>
 
-    }
-
-    public interface ICurlService<
-        TEntity, TKey,
-        TCreateReq, TRemoveReq, TUpdateReq, TQueryReq,
-        TCreateResp, TRemoveResp, TUpdateResp, TQueryResp
-        > :
-        ICreateService<TEntity, TKey, TCreateReq, TCreateResp>,
-        IRemoveService<TEntity, TKey, TRemoveReq, TRemoveResp>,
-        IUpdateService<TEntity, TKey, TUpdateReq, TUpdateResp>,
-        IQueryService<TEntity, TKey, TQueryReq, TQueryResp>
         where TEntity : IEntity<TKey>
         where TKey : IEquatable<TKey>
     {

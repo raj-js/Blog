@@ -9,7 +9,13 @@ using System.Threading.Tasks;
 
 namespace Blog.Stores.Mongo
 {
-    public class MongoStore<TEntity, TKey> : ICurlStore<TEntity, TKey>
+    public class MongoStore<TEntity, TKey> :
+        ICreateStore<TEntity, TKey>,
+        IRemoveStore<TEntity, TKey>,
+        IUpdateStore<TEntity, TKey>,
+        IQueryStore<TEntity, TKey>,
+        ICurlStore<TEntity, TKey>
+
         where TEntity : IEntity<TKey>
         where TKey : IEquatable<TKey>
     {
