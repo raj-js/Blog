@@ -8,7 +8,7 @@ namespace Blog.Core.Services
 {
     public class ArticleService : ServiceBase<Article, string, ArticleCreateDTO, ArticleUpdateDTO, ArticleDTO>, IArticleService
     {
-        public ArticleService(IMapper mapper, ICurlStore<Article, string> store) : 
+        public ArticleService(IMapper mapper, ICURLStore<Article, string> store) : 
             base(mapper, store)
         {
 

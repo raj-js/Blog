@@ -1,15 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace Blog.Core.Sparrow.Stores
 {
-    public interface IUpdateStore<TEntity> : IUpdateStore<TEntity, int> where TEntity : IEntity
-    {
-
-    }
-
     public interface IUpdateStore<TEntity, TKey>
         where TEntity : IEntity<TKey>
         where TKey : IEquatable<TKey>

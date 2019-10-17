@@ -2,12 +2,7 @@
 
 namespace Blog.Core.Sparrow.Stores
 {
-    public interface ICurlStore<TEntity> : ICurlStore<TEntity, int> where TEntity : IEntity
-    {
-
-    }
-
-    public interface ICurlStore<TEntity, TKey> :
+    public interface ICURLStore<TEntity, TKey> :
         ICreateStore<TEntity, TKey>,
         IRemoveStore<TEntity, TKey>,
         IUpdateStore<TEntity, TKey>,

@@ -4,12 +4,6 @@ using System.Threading.Tasks;
 
 namespace Blog.Core.Sparrow.Stores
 {
-    public interface ICreateStore<TEntity> : ICreateStore<TEntity, int> 
-        where TEntity : IEntity
-    {
-
-    }
-
     public interface ICreateStore<TEntity, TKey>
         where TEntity : IEntity<TKey>
         where TKey : IEquatable<TKey>

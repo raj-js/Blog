@@ -4,11 +4,6 @@ using System.Threading.Tasks;
 
 namespace Blog.Core.Sparrow.Stores
 {
-    public interface IRemoveStore<TEntity> : IRemoveStore<TEntity, int> where TEntity : IEntity
-    { 
-    
-    }
-
     public interface IRemoveStore<TEntity, TKey> 
         where TEntity : IEntity<TKey>
         where TKey : IEquatable<TKey>

@@ -29,9 +29,9 @@ namespace Blog.Core.Sparrow.Services
         where TKey : IEquatable<TKey>
     {
         protected IMapper Mapper { get; private set; }
-        private readonly ICurlStore<TEntity, TKey> _store;
+        private readonly ICURLStore<TEntity, TKey> _store;
 
-        public ServiceBase(IMapper mapper, ICurlStore<TEntity, TKey> store)
+        public ServiceBase(IMapper mapper, ICURLStore<TEntity, TKey> store)
         {
             Mapper = mapper;
             _store = store;
@@ -39,7 +39,7 @@ namespace Blog.Core.Sparrow.Services
 
         #region protected
 
-        protected virtual TEntity ToEntity(object req) => Mapper.Map<TEntity>(req);
+        protected virtual TEntity ToEntity(object dto) => Mapper.Map<TEntity>(dto);
         protected virtual TDTO ToDTO(TEntity entity) => Mapper.Map<TDTO>(entity);
 
         #endregion

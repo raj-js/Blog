@@ -9,19 +9,27 @@ namespace Blog.Core.Sparrow.Mapping
     {
         public static void AppliyMapperConfigurations(this IMapperConfigurationExpression cfg, params Assembly[] assemblies)
         {
+            cfg.RegisterMappingFromAssembly(typeof(MapperConfigurationBase<,,,>).Assembly);
+
             foreach (var assembly in assemblies)
             {
-                assembly.GetTypes()
-                    .Where(s => s.IsSubclassOf(typeof(MapperConfigurationBase<,>)))
-                    .ToList()
-                    .ForEach(s =>
-                    {
-                        var target = s.GetConstructor(new Type[] { }).Invoke(new object[] { });
-                        var args = new object[] { cfg };
-
-                        s.InvokeMember("Config", BindingFlags.Public, null, target, args);
-                    });
+                cfg.RegisterMappingFromAssembly(assembly);
             }
+        }
+
+        private static void RegisterMappingFromAssembly(this IMapperConfigurationExpression cfg, Assembly assembly)
+        {
+            var configurations = assembly.GetTypes()
+                        .Where(s => !s.IsAbstract && s.IsSubclassOf(typeof(MapperConfigurationBase)))
+                        .ToList();
+
+            configurations.ForEach(s =>
+                        {
+                            var target = s.GetConstructor(new Type[] { }).Invoke(new object[] { });
+                            var args = new object[] { cfg };
+
+                            s.GetMethod(nameof(MapperConfigurationBase.Config)).Invoke(target, args);
+                        });
         }
     }
 }

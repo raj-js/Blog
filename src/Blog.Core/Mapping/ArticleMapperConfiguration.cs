@@ -5,7 +5,7 @@ using Blog.Core.Sparrow.Mapping;
 
 namespace Blog.Core.Mapping
 {
-    public class ArticleMapperConfiguration : MapperConfigurationBase<Article, ArticleCreateDTO, ArticleUpdateDTO, ArticleDTO>, IMapperConfiguration<Article, ArticleCreateDTO, ArticleUpdateDTO, ArticleDTO>
+    public class ArticleMapperConfiguration : MapperConfigurationBase<Article, ArticleCreateDTO, ArticleUpdateDTO, ArticleDTO>
     {
         public override void Config(IMapperConfigurationExpression cfg)
         {

@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Blog.Api</name>
+    </assembly>
+    <members>
+        <member name="T:Blog.Api.Controllers.ArticleController">
+            <summary>
+            文章接口控制器
+            </summary>
+        </member>
+        <member name="M:Blog.Api.Controllers.ArticleController.#ctor(Blog.Core.Sparrow.Services.ICURLService{Blog.Core.Models.Article,System.String,Blog.Core.DTOs.ArticleCreateDTO,Blog.Core.DTOs.ArticleUpdateDTO,Blog.Core.DTOs.ArticleDTO})">
+            <summary>
+            构造
+            </summary>
+            <param name="curlService"></param>
+        </member>
+    </members>
+</doc>

@@ -14,13 +14,13 @@ namespace Blog.Stores.Mongo
         IRemoveStore<TEntity, TKey>,
         IUpdateStore<TEntity, TKey>,
         IQueryStore<TEntity, TKey>,
-        ICurlStore<TEntity, TKey>
+        ICURLStore<TEntity, TKey>
 
         where TEntity : IEntity<TKey>
         where TKey : IEquatable<TKey>
     {
         private readonly IMongoAccessor _mongoAccessor;
-        private readonly string _collection = nameof(TEntity);
+        private readonly string _collection = typeof(TEntity).Name;
 
         IMongoCollection<TEntity> Collection => _mongoAccessor.GetCollection<TEntity>(_collection);
 
@@ -77,12 +77,14 @@ namespace Blog.Stores.Mongo
 
         public TEntity Find(TKey id)
         {
-            return Collection.Find(s => s.Id.Equals(id)).First();
+            var builder = new FilterDefinitionBuilder<TEntity>();
+            return Collection.Find(builder.Eq("Id", id)).FirstOrDefault();
         }
 
         public Task<TEntity> FindAsync(TKey id)
         {
-            return Collection.Find(s => s.Equals(id)).FirstAsync();
+            var builder = new FilterDefinitionBuilder<TEntity>();
+            return Collection.Find(builder.Eq("Id", id)).FirstOrDefaultAsync();
         }
 
         public TEntity FirstOrDefault(Expression<Func<TEntity, bool>> predicate)

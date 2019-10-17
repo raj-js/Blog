@@ -1,5 +1,7 @@
 ﻿using Autofac;
 using Blog.Core.Sparrow.Stores;
+using MongoDB.Bson.Serialization;
+using MongoDB.Bson.Serialization.IdGenerators;
 using System;
 
 namespace Blog.Stores.Mongo
@@ -8,13 +10,17 @@ namespace Blog.Stores.Mongo
     {
         public static void AddMongo(this ContainerBuilder builder, Action<MongoSettings> action)
         {
+            BsonSerializer.RegisterIdGenerator(typeof(string), StringObjectIdGenerator.Instance);
+            BsonSerializer.RegisterIdGenerator(typeof(Guid), CombGuidGenerator.Instance);
+
             var mongoAccessor = new MongoAccessor(action);
             builder.RegisterInstance(mongoAccessor).As<IMongoAccessor>().SingleInstance();
-            builder.RegisterGeneric(typeof(ICreateStore<,>)).As(typeof(MongoStore<,>)).InstancePerLifetimeScope();
-            builder.RegisterGeneric(typeof(IRemoveStore<,>)).As(typeof(MongoStore<,>)).InstancePerLifetimeScope();
-            builder.RegisterGeneric(typeof(IUpdateStore<,>)).As(typeof(MongoStore<,>)).InstancePerLifetimeScope();
-            builder.RegisterGeneric(typeof(IQueryStore<,>)).As(typeof(MongoStore<,>)).InstancePerLifetimeScope();
-            builder.RegisterGeneric(typeof(ICurlStore<,>)).As(typeof(MongoStore<,>)).InstancePerLifetimeScope();
+
+            builder.RegisterGeneric(typeof(MongoStore<,>)).As(typeof(ICreateStore<,>)).InstancePerLifetimeScope();
+            builder.RegisterGeneric(typeof(MongoStore<,>)).As(typeof(IRemoveStore<,>)).InstancePerLifetimeScope();
+            builder.RegisterGeneric(typeof(MongoStore<,>)).As(typeof(IUpdateStore<,>)).InstancePerLifetimeScope();
+            builder.RegisterGeneric(typeof(MongoStore<,>)).As(typeof(IQueryStore<,>)).InstancePerLifetimeScope();
+            builder.RegisterGeneric(typeof(MongoStore<,>)).As(typeof(ICURLStore<,>)).InstancePerLifetimeScope();
         }
     }
 }
