@@ -10,19 +10,19 @@ namespace Blog.Core.Sparrow.Services
     public abstract class ServiceBase
         <
         TEntity, TKey,
-        TCreateReqDto, TUpdateReqDto,
-        TRespDto
+        TCreateDTO, TUpdateDTO,
+        TDTO
         > :
 
-        ICreateService<TEntity, TKey, TCreateReqDto, TRespDto>,
+        ICreateService<TEntity, TKey, TCreateDTO, TDTO>,
         IRemoveService<TEntity, TKey>,
-        IUpdateService<TEntity, TKey, TUpdateReqDto, TRespDto>,
-        IQueryService<TEntity, TKey, TRespDto>,
-        ICurlService
+        IUpdateService<TEntity, TKey, TUpdateDTO, TDTO>,
+        IQueryService<TEntity, TKey, TDTO>,
+        ICURLService
         <
         TEntity, TKey,
-        TCreateReqDto, TUpdateReqDto,
-        TRespDto
+        TCreateDTO, TUpdateDTO,
+        TDTO
         >
 
         where TEntity : IEntity<TKey>
@@ -40,7 +40,7 @@ namespace Blog.Core.Sparrow.Services
         #region protected
 
         protected virtual TEntity ToEntity(object req) => Mapper.Map<TEntity>(req);
-        protected virtual TRespDto ToRespDto(TEntity entity) => Mapper.Map<TRespDto>(entity);
+        protected virtual TDTO ToDTO(TEntity entity) => Mapper.Map<TDTO>(entity);
 
         #endregion
 
@@ -54,50 +54,50 @@ namespace Blog.Core.Sparrow.Services
             return _store.CountAsync();
         }
 
-        public TRespDto Create(TCreateReqDto reqDto)
+        public TDTO Create(TCreateDTO createDTO)
         {
-            var entity = _store.Create(ToEntity(reqDto));
-            return ToRespDto(entity);
+            var entity = _store.Create(ToEntity(createDTO));
+            return ToDTO(entity);
         }
 
-        public TKey CreateAndGetId(TCreateReqDto reqDto)
+        public TKey CreateAndGetId(TCreateDTO createDTO)
         {
-            return _store.CreateAndGetId(ToEntity(reqDto));
+            return _store.CreateAndGetId(ToEntity(createDTO));
         }
 
-        public Task<TKey> CreateAndGetIdAsync(TCreateReqDto reqDto)
+        public Task<TKey> CreateAndGetIdAsync(TCreateDTO createDTO)
         {
-            return _store.CreateAndGetIdAsync(ToEntity(reqDto));
+            return _store.CreateAndGetIdAsync(ToEntity(createDTO));
         }
 
-        public async Task<TRespDto> CreateAsync(TCreateReqDto reqDto)
+        public async Task<TDTO> CreateAsync(TCreateDTO createDTO)
         {
-            var entity = await _store.CreateAsync(ToEntity(reqDto));
-            return ToRespDto(entity);
+            var entity = await _store.CreateAsync(ToEntity(createDTO));
+            return ToDTO(entity);
         }
 
-        public void CreateMany(IEnumerable<TCreateReqDto> reqDtos)
+        public void CreateMany(IEnumerable<TCreateDTO> createDTOs)
         {
-            var entities = reqDtos.Select(s => ToEntity(s));
+            var entities = createDTOs.Select(s => ToEntity(s));
             _store.CreateMany(entities);
         }
 
-        public Task CreateManyAsync(IEnumerable<TCreateReqDto> reqDtos)
+        public Task CreateManyAsync(IEnumerable<TCreateDTO> createDTOs)
         {
-            var entities = reqDtos.Select(s => ToEntity(s));
+            var entities = createDTOs.Select(s => ToEntity(s));
             return _store.CreateManyAsync(entities);
         }
 
-        public TRespDto Find(TKey id)
+        public TDTO Find(TKey id)
         {
             var entity = _store.Find(id);
-            return ToRespDto(entity);
+            return ToDTO(entity);
         }
 
-        public async Task<TRespDto> FindAsync(TKey id)
+        public async Task<TDTO> FindAsync(TKey id)
         {
             var entity = await _store.FindAsync(id);
-            return ToRespDto(entity);
+            return ToDTO(entity);
         }
 
         public bool Remove(TKey id)
@@ -110,27 +110,37 @@ namespace Blog.Core.Sparrow.Services
             return _store.RemoveAsync(id);
         }
 
-        public TRespDto Update(TUpdateReqDto reqDto)
+        public TDTO Update(TUpdateDTO updateDTO)
         {
-            var entity = ToEntity(reqDto);
-            return ToRespDto(_store.Update(entity));
+            var entity = ToEntity(updateDTO);
+            return ToDTO(_store.Update(entity));
         }
 
-        public TRespDto Update(TKey id, params (string Field, object Value)[] selectors)
+        public TDTO Update(TKey id, params (string Field, object Value)[] selectors)
         {
-            return ToRespDto(_store.Update(id, selectors));
+            return ToDTO(_store.Update(id, selectors));
         }
 
-        public async Task<TRespDto> UpdateAsync(TUpdateReqDto reqDto)
+        public async Task<TDTO> UpdateAsync(TUpdateDTO updateDTO)
         {
-            var entity = await _store.UpdateAsync(ToEntity(reqDto));
-            return ToRespDto(entity);
+            var entity = await _store.UpdateAsync(ToEntity(updateDTO));
+            return ToDTO(entity);
         }
 
-        public async Task<TRespDto> UpdateAsync(TKey id, params (string Field, object Value)[] selectors)
+        public async Task<TDTO> UpdateAsync(TKey id, params (string Field, object Value)[] selectors)
         {
             var entity = await _store.UpdateAsync(id, selectors);
-            return ToRespDto(entity);
+            return ToDTO(entity);
+        }
+
+        public async Task<(List<TDTO> List, long Total)> PageQuery(int pageIndex, int pageSize, params (string Field, bool IsAsc)[] sortFields)
+        {
+            var paged = await _store.PageQuery(s => true, sortFields, pageIndex, pageSize);
+
+            return (
+                paged.Entities.Select(s => ToDTO(s)).ToList(),
+                paged.Total
+                );
         }
     }
 }

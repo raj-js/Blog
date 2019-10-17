@@ -4,50 +4,50 @@ using System.Threading.Tasks;
 
 namespace Blog.Core.Sparrow.Services
 {
-    public interface ICreateService<TEntity, TKey, TReqDto, TRespDto>
+    public interface ICreateService<TEntity, TKey, TCreateDTO, TDTO>
         where TEntity : IEntity<TKey>
         where TKey : IEquatable<TKey>
     {
         /// <summary>
         /// 新增实体
         /// </summary>
-        /// <param name="reqDto"></param>
+        /// <param name="createDTO"></param>
         /// <returns></returns>
-        TRespDto Create(TReqDto reqDto);
+        TDTO Create(TCreateDTO createDTO);
 
         /// <summary>
         /// 异步新增实体
         /// </summary>
-        /// <param name="reqDto"></param>
+        /// <param name="createDTO"></param>
         /// <returns></returns>
-        Task<TRespDto> CreateAsync(TReqDto reqDto);
+        Task<TDTO> CreateAsync(TCreateDTO createDTO);
 
         /// <summary>
         /// 新增实体并返回唯一标识
         /// </summary>
-        /// <param name="reqDto"></param>
+        /// <param name="createDTO"></param>
         /// <returns></returns>
-        TKey CreateAndGetId(TReqDto reqDto);
+        TKey CreateAndGetId(TCreateDTO createDTO);
 
         /// <summary>
         /// 异步新增实体并返回唯一标识
         /// </summary>
-        /// <param name="reqDto"></param>
+        /// <param name="createDTO"></param>
         /// <returns></returns>
-        Task<TKey> CreateAndGetIdAsync(TReqDto reqDto);
+        Task<TKey> CreateAndGetIdAsync(TCreateDTO createDTO);
 
         /// <summary>
         /// 新增多个实体
         /// </summary>
-        /// <param name="reqDtos"></param>
+        /// <param name="createDTOs"></param>
         /// <returns></returns>
-        void CreateMany(IEnumerable<TReqDto> reqDtos);
+        void CreateMany(IEnumerable<TCreateDTO> createDTOs);
 
         /// <summary>
         /// 新增多个实体
         /// </summary>
-        /// <param name="reqDtos"></param>
+        /// <param name="createDTOs"></param>
         /// <returns></returns>
-        Task CreateManyAsync(IEnumerable<TReqDto> reqDtos);
+        Task CreateManyAsync(IEnumerable<TCreateDTO> createDTOs);
     }
 }

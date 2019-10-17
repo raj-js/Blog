@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
-using Blog.Core.Dtos;
+using Blog.Core.DTOs;
 using Blog.Core.Models;
 using Blog.Core.Sparrow.Mapping;
 
 namespace Blog.Core.Mapping
 {
-    public class ArticleMapperConfiguration : MapperConfigurationBase<Article, ArticleCreateReqDto, ArticleUpdateReqDto, ArticleRespDto>, IMapperConfiguration<Article, ArticleCreateReqDto, ArticleUpdateReqDto, ArticleRespDto>
+    public class ArticleMapperConfiguration : MapperConfigurationBase<Article, ArticleCreateDTO, ArticleUpdateDTO, ArticleDTO>, IMapperConfiguration<Article, ArticleCreateDTO, ArticleUpdateDTO, ArticleDTO>
     {
         public override void Config(IMapperConfigurationExpression cfg)
         {

@@ -67,21 +67,21 @@ namespace Blog.Core.Sparrow.Stores
         /// 分页查询
         /// </summary>
         /// <param name="predicate">查询条件</param>
-        /// <param name="sorters">排序字段</param>
-        /// <param name="index">页码 （从 1 开始）</param>
-        /// <param name="size">每页条目数</param>
+        /// <param name="sortFields">排序字段</param>
+        /// <param name="pageIndex">页码 （从 1 开始）</param>
+        /// <param name="pageSize">每页条目数</param>
         /// <returns>Entities 结果集， Total 总条目</returns>
-        Task<(IEnumerable<TEntity> Entities, long Total)> PageQuery(Expression<Func<TEntity, bool>> predicate, (string field, bool asc)[] sorters, int index, int size);
+        Task<(IEnumerable<TEntity> Entities, long Total)> PageQuery(Expression<Func<TEntity, bool>> predicate, (string Field, bool IsAsc)[] sortFields, int pageIndex, int pageSize);
 
         /// <summary>
         /// 分页查询
         /// </summary>
         /// <param name="predicate">查询条件</param>
-        /// <param name="sorters">排序字段</param>
-        /// <param name="index">页码 （从 1 开始）</param>
-        /// <param name="size">每页条目数</param>
+        /// <param name="sortFields">排序字段</param>
+        /// <param name="pageIndex">页码 （从 1 开始）</param>
+        /// <param name="pageSize">每页条目数</param>
         /// <returns>Entities 结果集， Total 总条目</returns>
-        Task<(IEnumerable<TEntity> Entities, long Total)> PageQuery(Expression<Func<TEntity, bool>> predicate, (Expression<Func<TEntity, object>> selector, bool asc)[] sorters, int index, int size);
+        Task<(IEnumerable<TEntity> Entities, long Total)> PageQuery(Expression<Func<TEntity, bool>> predicate, (Expression<Func<TEntity, object>> Selector, bool IsAsc)[] sortFields, int pageIndex, int pageSize);
 
         /// <summary>
         /// 获得实体总数

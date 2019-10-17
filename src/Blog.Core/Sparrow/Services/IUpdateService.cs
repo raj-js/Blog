@@ -3,23 +3,23 @@ using System.Threading.Tasks;
 
 namespace Blog.Core.Sparrow.Services
 {
-    public interface IUpdateService<TEntity, TKey, TReqDto, TRespDto>
+    public interface IUpdateService<TEntity, TKey, TUpdateDTO, TDTO>
         where TEntity : IEntity<TKey>
         where TKey : IEquatable<TKey>
     {
         /// <summary>
         /// 更新实体
         /// </summary>
-        /// <param name="reqDto"></param>
+        /// <param name="updateDTO"></param>
         /// <returns></returns>
-        TRespDto Update(TReqDto reqDto);
+        TDTO Update(TUpdateDTO updateDTO);
 
         /// <summary>
         /// 异步更新实体
         /// </summary>
-        /// <param name="reqDto"></param>
+        /// <param name="updateDTO"></param>
         /// <returns></returns>
-        Task<TRespDto> UpdateAsync(TReqDto reqDto);
+        Task<TDTO> UpdateAsync(TUpdateDTO updateDTO);
 
         /// <summary>
         /// 部分更新
@@ -27,7 +27,7 @@ namespace Blog.Core.Sparrow.Services
         /// <param name="id"></param>
         /// <param name="selectors"></param>
         /// <returns></returns>
-        TRespDto Update(TKey id, params (string Field, object Value)[] selectors);
+        TDTO Update(TKey id, params (string Field, object Value)[] selectors);
 
         /// <summary>
         /// 异步部分更新
@@ -35,6 +35,6 @@ namespace Blog.Core.Sparrow.Services
         /// <param name="id"></param>
         /// <param name="selectors"></param>
         /// <returns></returns>
-        Task<TRespDto> UpdateAsync(TKey id, params (string Field, object Value)[] selectors);
+        Task<TDTO> UpdateAsync(TKey id, params (string Field, object Value)[] selectors);
     }
 }

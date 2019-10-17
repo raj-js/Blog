@@ -192,40 +192,40 @@ namespace Blog.Stores.Mongo
             return Collection.InsertManyAsync(entities);
         }
 
-        public async Task<(IEnumerable<TEntity> Entities, long Total)> PageQuery(Expression<Func<TEntity, bool>> predicate, (string field, bool asc)[] sorters, int index, int size)
+        public async Task<(IEnumerable<TEntity> Entities, long Total)> PageQuery(Expression<Func<TEntity, bool>> predicate, (string Field, bool IsAsc)[] sortFields, int pageIndex, int pageSize)
         {
             var filter = new FilterDefinitionBuilder<TEntity>();
             var sorter = new SortDefinitionBuilder<TEntity>();
 
             var sortDef = sorter.Combine(
-                sorters.Select(s => s.asc ?
-                    sorter.Ascending(s.field) :
-                    sorter.Descending(s.field))
+                sortFields.Select(s => s.IsAsc ?
+                    sorter.Ascending(s.Field) :
+                    sorter.Descending(s.Field))
                 );
 
             var finder = Collection.Find(filter.Where(predicate));
 
             return (
-                await finder.Sort(sortDef).Skip(size * (index - 1)).Limit(size).ToListAsync(),
+                await finder.Sort(sortDef).Skip(pageSize * (pageIndex - 1)).Limit(pageSize).ToListAsync(),
                 await finder.CountDocumentsAsync()
                 );
         }
 
-        public async Task<(IEnumerable<TEntity> Entities, long Total)> PageQuery(Expression<Func<TEntity, bool>> predicate, (Expression<Func<TEntity, object>> selector, bool asc)[] sorters, int index, int size)
+        public async Task<(IEnumerable<TEntity> Entities, long Total)> PageQuery(Expression<Func<TEntity, bool>> predicate, (Expression<Func<TEntity, object>> Selector, bool IsAsc)[] sortFields, int pageIndex, int pageSize)
         {
             var filter = new FilterDefinitionBuilder<TEntity>();
             var sorter = new SortDefinitionBuilder<TEntity>();
 
             var sortDef = sorter.Combine(
-                sorters.Select(s => s.asc ?
-                    sorter.Ascending(s.selector) :
-                    sorter.Descending(s.selector))
+                sortFields.Select(s => s.IsAsc ?
+                    sorter.Ascending(s.Selector) :
+                    sorter.Descending(s.Selector))
                 );
 
             var finder = Collection.Find(filter.Where(predicate));
 
             return (
-                await finder.Sort(sortDef).Skip(size * (index - 1)).Limit(size).ToListAsync(),
+                await finder.Sort(sortDef).Skip(pageSize * (pageIndex - 1)).Limit(pageSize).ToListAsync(),
                 await finder.CountDocumentsAsync()
                 );
         }
@@ -239,9 +239,13 @@ namespace Blog.Stores.Mongo
             return Find(id);
         }
 
-        public Task<TEntity> UpdateAsync(TKey id, params (string Field, object Value)[] selectors)
+        public async Task<TEntity> UpdateAsync(TKey id, params (string Field, object Value)[] selectors)
         {
-            throw new NotImplementedException();
+            var filter = new FilterDefinitionBuilder<TEntity>();
+            var updator = new UpdateDefinitionBuilder<TEntity>();
+            var updateDef = updator.Combine(selectors.Select(s => updator.AddToSet(s.Field, s.Value)));
+            await Collection.UpdateOneAsync(filter.Eq("Id", id), updateDef);
+            return await FindAsync(id);
         }
     }
 }
