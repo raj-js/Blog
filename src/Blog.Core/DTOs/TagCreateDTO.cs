@@ -4,6 +4,6 @@
     {
         public string Name { get; set; }
 
-        public bool Enable { get; set; } = true;
+        public bool Enable { get; set; } = true; 
     }
 }

@@ -1,15 +1,12 @@
-﻿using Blog.Core.Sparrow;
-using System;
+﻿using System;
 
-namespace Blog.Core.Models
+namespace Blog.Core.DTOs
 {
-    public class Comment : IEntity<string>
+    public class CommentDTO
     {
         public string Id { get; set; }
 
         public int Order { get; set; }
-
-        public string ArticleId { get; set; }
 
         public string Poster { get; set; }
 

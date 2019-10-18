@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Blog.Core.Sparrow.Services
 {
-    public abstract class ServiceBase
+    public class CURLService
         <
         TEntity, TKey,
         TCreateDTO, TUpdateDTO,
@@ -31,7 +31,7 @@ namespace Blog.Core.Sparrow.Services
         protected IMapper Mapper { get; private set; }
         private readonly ICURLStore<TEntity, TKey> _store;
 
-        public ServiceBase(IMapper mapper, ICURLStore<TEntity, TKey> store)
+        public CURLService(IMapper mapper, ICURLStore<TEntity, TKey> store)
         {
             Mapper = mapper;
             _store = store;

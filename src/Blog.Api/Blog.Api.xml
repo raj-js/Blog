@@ -6,7 +6,7 @@
     <members>
         <member name="T:Blog.Api.Controllers.ArticleController">
             <summary>
-            文章接口控制器
+            文章接口
             </summary>
         </member>
         <member name="M:Blog.Api.Controllers.ArticleController.#ctor(Blog.Core.Sparrow.Services.ICURLService{Blog.Core.Models.Article,System.String,Blog.Core.DTOs.ArticleCreateDTO,Blog.Core.DTOs.ArticleUpdateDTO,Blog.Core.DTOs.ArticleDTO})">
@@ -15,9 +15,31 @@
             </summary>
             <param name="curlService"></param>
         </member>
+        <member name="T:Blog.Api.Controllers.CategoryController">
+            <summary>
+            类别
+            </summary>
+        </member>
+        <member name="M:Blog.Api.Controllers.CategoryController.#ctor(Blog.Core.Sparrow.Services.ICURLService{Blog.Core.Models.Category,System.Int32,Blog.Core.DTOs.CategoryCreateDTO,Blog.Core.DTOs.CategoryUpdateDTO,Blog.Core.DTOs.CategoryDTO})">
+            <summary>
+            gouza构造器
+            </summary>
+            <param name="curlService"></param>
+        </member>
+        <member name="T:Blog.Api.Controllers.CommentController">
+            <summary>
+            评论接口
+            </summary>
+        </member>
+        <member name="M:Blog.Api.Controllers.CommentController.#ctor(Blog.Core.Sparrow.Services.ICURLService{Blog.Core.Models.Comment,System.String,Blog.Core.DTOs.CommentCreateDTO,Blog.Core.DTOs.CommentUpdateDTO,Blog.Core.DTOs.CommentDTO})">
+            <summary>
+            构造器
+            </summary>
+            <param name="curlService"></param>
+        </member>
         <member name="T:Blog.Api.Controllers.TagController">
             <summary>
-            标签接口控制器
+            标签
             </summary>
         </member>
         <member name="M:Blog.Api.Controllers.TagController.#ctor(Blog.Core.Sparrow.Services.ICURLService{Blog.Core.Models.Tag,System.Int32,Blog.Core.DTOs.TagCreateDTO,Blog.Core.DTOs.TagDTO,Blog.Core.DTOs.TagDTO})">

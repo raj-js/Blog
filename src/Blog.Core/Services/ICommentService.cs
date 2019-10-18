@@ -4,7 +4,7 @@ using Blog.Core.Sparrow.Services;
 
 namespace Blog.Core.Services
 {
-    public interface ITagService : ICURLService<Tag, int, TagCreateDTO, TagDTO, TagDTO>
+    public interface ICommentService : ICURLService<Comment, string, CommentCreateDTO, CommentUpdateDTO, CommentDTO>
     {
     }
 }

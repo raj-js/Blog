@@ -1,11 +1,7 @@
-﻿using Blog.Core.Sparrow;
-
-namespace Blog.Core.Models
+﻿namespace Blog.Core.DTOs
 {
-    public class Category : IEntity
+    public class CategoryCreateDTO
     {
-        public int Id { get; set; }
-
         public string Name { get; set; }
 
         public int Order { get; set; }

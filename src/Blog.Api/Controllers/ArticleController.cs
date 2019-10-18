@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Blog.Api.Controllers
 {
     /// <summary>
-    /// 文章接口控制器
+    /// 文章接口
     /// </summary>
     [Route("api/[controller]")]
     [ApiController]
