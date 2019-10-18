@@ -15,5 +15,16 @@
             </summary>
             <param name="curlService"></param>
         </member>
+        <member name="T:Blog.Api.Controllers.TagController">
+            <summary>
+            标签接口控制器
+            </summary>
+        </member>
+        <member name="M:Blog.Api.Controllers.TagController.#ctor(Blog.Core.Sparrow.Services.ICURLService{Blog.Core.Models.Tag,System.Int32,Blog.Core.DTOs.TagCreateDTO,Blog.Core.DTOs.TagDTO,Blog.Core.DTOs.TagDTO})">
+            <summary>
+            构造器
+            </summary>
+            <param name="curlService"></param>
+        </member>
     </members>
 </doc>

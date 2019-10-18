@@ -1,8 +1,6 @@
-﻿using Blog.Core.Sparrow;
-
-namespace Blog.Core.Models
+﻿namespace Blog.Core.DTOs
 {
-    public class Tag : IEntity
+    public class TagDTO
     {
         public int Id { get; set; }
 
