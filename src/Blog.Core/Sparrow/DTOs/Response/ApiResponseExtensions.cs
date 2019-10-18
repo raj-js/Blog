@@ -4,7 +4,7 @@
     {
         public static void AddError(this ApiResponse response, string code, string msg)
         {
-            response.Errors.Add((code, msg));
+            response.Errors.Add(Error.Create(code, msg));
         }
     }
 }
