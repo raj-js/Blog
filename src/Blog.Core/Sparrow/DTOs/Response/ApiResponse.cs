@@ -22,6 +22,12 @@ namespace Blog.Core.Sparrow.DTOs.Response
                 new ApiResponse() { Status = -1 };
         }
 
+        public static ApiResponse Failure()
+        {
+            return Assert(false);
+        }
+
+
         public static ApiResponse<TDTO> Success<TDTO>(TDTO dto)
         {
             return new ApiResponse<TDTO>()

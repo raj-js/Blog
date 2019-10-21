@@ -9,11 +9,25 @@
             文章接口
             </summary>
         </member>
-        <member name="M:Blog.Api.Controllers.ArticleController.#ctor(Blog.Core.Sparrow.Services.ICURLService{Blog.Core.Models.Article,System.String,Blog.Core.DTOs.ArticleCreateDTO,Blog.Core.DTOs.ArticleUpdateDTO,Blog.Core.DTOs.ArticleDTO})">
+        <member name="M:Blog.Api.Controllers.ArticleController.#ctor(Blog.Core.Services.IArticleService)">
             <summary>
             构造
             </summary>
-            <param name="curlService"></param>
+            <param name="articleService"></param>
+        </member>
+        <member name="M:Blog.Api.Controllers.ArticleController.CreateDraft(Blog.Core.DTOs.ArticleCreateDTO)">
+            <summary>
+            创建草稿
+            </summary>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Blog.Api.Controllers.ArticleController.Publish(System.String)">
+            <summary>
+            文章发布
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
         </member>
         <member name="T:Blog.Api.Controllers.CategoryController">
             <summary>

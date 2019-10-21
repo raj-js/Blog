@@ -24,5 +24,7 @@ namespace Blog.Core.Models
         public bool IsDeleted { get; set; }
 
         public DateTime Creation { get; set; }
+
+        public DateTime? PublishTime { get; set; }
     }
 }
