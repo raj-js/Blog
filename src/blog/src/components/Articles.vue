@@ -1,60 +1,88 @@
 <template>
-	<v-sheet :color="`grey lighten-4`" class="px-3 pt-3 pb-12">
-		<v-container>
-			<v-row>
-				<v-col cols="12" md="4">
-					<v-boilerplate class="mb-6" type="card-avatar, article, actions"></v-boilerplate>
+	<v-container fluid>
+		<v-row justify="center" v-for="(article, i) in articles" :key="i">
+			<v-col>
+				<v-card>
+					<v-list-item three-line>
+						<v-list-item-content>
+							<v-list-item-title class="headline mb-1">{{article.title}}</v-list-item-title>
+							<v-list-item-subtitle>{{article.digest}}</v-list-item-subtitle>
+						</v-list-item-content>
+					</v-list-item>
 
-					<v-boilerplate type="date-picker"></v-boilerplate>
-				</v-col>
-
-				<v-col cols="12" md="4">
-					<v-boilerplate class="mb-6" type="article, actions"></v-boilerplate>
-
-					<v-boilerplate class="mb-6" type="table-heading, list-item-two-line, image, table-tfoot"></v-boilerplate>
-				</v-col>
-
-				<v-col cols="12" md="4">
-					<v-boilerplate
-						class="mb-6"
-						type="list-item-avatar, divider, list-item-three-line, card-heading, image, actions"
-					></v-boilerplate>
-
-					<v-boilerplate type="list-item-avatar-three-line, image, article"></v-boilerplate>
-				</v-col>
-			</v-row>
-		</v-container>
-	</v-sheet>
+					<v-card-actions>
+						<v-list-item class="grow">
+							<v-row>
+								<v-icon class="mr-1">mdi-eye</v-icon>
+								<span class="subheading mr-2">{{article.reads}}</span>
+								<span class="mr-1">·</span>
+								<v-icon class="mr-1">mdi-thumb-up</v-icon>
+								<span class="subheading mr-2">{{article.likes}}</span>
+								<span class="mr-1">·</span>
+								<v-icon class="mr-1">mdi-calendar</v-icon>
+								<span class="subheading">{{article.creation}}</span>
+							</v-row>
+						</v-list-item>
+					</v-card-actions>
+				</v-card>
+			</v-col>
+		</v-row>
+	</v-container>
 </template>
 
 <script>
 	export default {
-		// Vuetify components provide
-		// a theme variable that is
-		// used to determine dark
-		inject: ["theme"],
-
-		components: {
-			// Create a new component that
-			// extends v-skeleton-loader
-			VBoilerplate: {
-				functional: true,
-
-				render(h, { data, props, children }) {
-					return h(
-						"v-skeleton-loader",
-						{
-							...data,
-							props: {
-								boilerplate: true,
-								elevation: 2,
-								...props
-							}
-						},
-						children
-					);
+		data: () => ({
+			articles: [
+				{
+					title: "Abp 源码研读 - 依赖注入",
+					digest:
+						'摘要：Abp 框架对于依赖注入的实现主要是依赖 ，实际上这一篇更应该归类于 的应用， 若对 知识不了解的， 可以先去学习下： "Castle.Core" 。下面来分析下比较重要的接口/类： 核心接口 IIocManager 定义了对 Ioc 对象， 服务注册，服务解析，服务注册与否的判断，以及对解析对象的',
+					reads: 100,
+					likes: 200,
+					creation: "2019-10-20 23:59:59"
+				},
+				{
+					title: "Abp 源码研读 - 依赖注入",
+					digest:
+						'摘要：Abp 框架对于依赖注入的实现主要是依赖 ，实际上这一篇更应该归类于 的应用， 若对 知识不了解的， 可以先去学习下： "Castle.Core" 。下面来分析下比较重要的接口/类： 核心接口 IIocManager 定义了对 Ioc 对象， 服务注册，服务解析，服务注册与否的判断，以及对解析对象的',
+					reads: 100,
+					likes: 200,
+					creation: "2019-10-20 23:59:59"
+				},
+				{
+					title: "Abp 源码研读 - 依赖注入",
+					digest:
+						'摘要：Abp 框架对于依赖注入的实现主要是依赖 ，实际上这一篇更应该归类于 的应用， 若对 知识不了解的， 可以先去学习下： "Castle.Core" 。下面来分析下比较重要的接口/类： 核心接口 IIocManager 定义了对 Ioc 对象， 服务注册，服务解析，服务注册与否的判断，以及对解析对象的',
+					reads: 100,
+					likes: 200,
+					creation: "2019-10-20 23:59:59"
+				},
+				{
+					title: "Abp 源码研读 - 依赖注入",
+					digest:
+						'摘要：Abp 框架对于依赖注入的实现主要是依赖 ，实际上这一篇更应该归类于 的应用， 若对 知识不了解的， 可以先去学习下： "Castle.Core" 。下面来分析下比较重要的接口/类： 核心接口 IIocManager 定义了对 Ioc 对象， 服务注册，服务解析，服务注册与否的判断，以及对解析对象的',
+					reads: 100,
+					likes: 200,
+					creation: "2019-10-20 23:59:59"
+				},
+				{
+					title: "Abp 源码研读 - 依赖注入",
+					digest:
+						'摘要：Abp 框架对于依赖注入的实现主要是依赖 ，实际上这一篇更应该归类于 的应用， 若对 知识不了解的， 可以先去学习下： "Castle.Core" 。下面来分析下比较重要的接口/类： 核心接口 IIocManager 定义了对 Ioc 对象， 服务注册，服务解析，服务注册与否的判断，以及对解析对象的',
+					reads: 100,
+					likes: 200,
+					creation: "2019-10-20 23:59:59"
+				},
+				{
+					title: "Abp 源码研读 - 依赖注入",
+					digest:
+						'摘要：Abp 框架对于依赖注入的实现主要是依赖 ，实际上这一篇更应该归类于 的应用， 若对 知识不了解的， 可以先去学习下： "Castle.Core" 。下面来分析下比较重要的接口/类： 核心接口 IIocManager 定义了对 Ioc 对象， 服务注册，服务解析，服务注册与否的判断，以及对解析对象的',
+					reads: 100,
+					likes: 200,
+					creation: "2019-10-20 23:59:59"
 				}
-			}
-		}
+			]
+		})
 	};
 </script>
