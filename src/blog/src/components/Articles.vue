@@ -33,6 +33,8 @@
 <script>
 	export default {
 		data: () => ({
+			tag: null,
+			category: null,
 			articles: [
 				{
 					title: "Abp 源码研读 - 依赖注入",
@@ -83,6 +85,14 @@
 					creation: "2019-10-20 23:59:59"
 				}
 			]
-		})
+		}),
+		mounted() {
+			let query = this.$route.query
+
+			this.category = query.category
+			this.tag = query.tag
+			
+			console.log(this.category, this.tag)
+		}
 	};
 </script>
