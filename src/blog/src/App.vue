@@ -11,6 +11,15 @@
 		</v-app-bar>
 
 		<v-navigation-drawer v-model="drawer" app clipped color="grey lighten-4">
+			<v-img :aspect-ratio="16/9" src="https://cdn.vuetifyjs.com/images/parallax/material.jpg">
+				<v-row align="end" class="lightbox white--text pa-2 fill-height">
+					<v-col>
+						<div class="subheading">Mr. Raj</div>
+						<div class="body-1">rajesh.js@live.cn</div>
+					</v-col>
+				</v-row>
+			</v-img>
+
 			<v-list class="grey lighten-4">
 				<v-list-item-group v-model="menu" color="primary">
 					<template v-for="(item, i) in menus">
@@ -27,11 +36,11 @@
 			</v-list>
 		</v-navigation-drawer>
 
-		<v-content>
-			<v-container fluid class="grey lighten-4 fill-height">
+		<v-content class="grey lighten-4">
+			<v-container fluid class="fill-height">
 				<v-fade-transition mode="out-in">
-          <router-view></router-view>
-        </v-fade-transition>
+					<router-view></router-view>
+				</v-fade-transition>
 			</v-container>
 		</v-content>
 	</v-app>
@@ -44,10 +53,10 @@
 			drawer: null,
 			menu: 1,
 			menus: [
-				{ icon: "mdi-home", text: "HOME", link: '/' },
-				{ icon: "mdi-apps", text: "CATEGORY", link: '/categories' },
-				{ icon: "mdi-tag", text: "TAG", link: '/tags' },
-				{ icon: "mdi-calendar", text: "TIMELINE", link: '/timeline' }
+				{ icon: "mdi-home", text: "HOME", link: "/" },
+				{ icon: "mdi-apps", text: "CATEGORY", link: "/categories" },
+				{ icon: "mdi-tag", text: "TAG", link: "/tags" },
+				{ icon: "mdi-calendar", text: "TIMELINE", link: "/timeline" }
 			]
 		})
 	};
