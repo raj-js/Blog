@@ -1,6 +1,7 @@
 ﻿using Blog.Core.DTOs;
 using Blog.Core.Models;
-using Blog.Core.Sparrow.Services;
+using Sparrow.Core.DTOs.Responses;
+using Sparrow.Core.Services;
 using System.Threading.Tasks;
 
 namespace Blog.Core.Services
@@ -8,20 +9,20 @@ namespace Blog.Core.Services
     /// <summary>
     /// 文章服务
     /// </summary>
-    public interface IArticleService : ICURLService<Article, string, ArticleCreateDTO, ArticleUpdateDTO, ArticleDTO>
+    public interface IArticleService : IAppService<Article, string, ArticleCreateDTO, ArticleUpdateDTO, ArticleDTO>
     {
         /// <summary>
         /// 写草稿
         /// </summary>
         /// <param name="article"></param>
         /// <returns></returns>
-        Task<ArticleDTO> CreateDraft(ArticleCreateDTO article);
+        Task<OpResponse<ArticleDTO>> CreateDraft(ArticleCreateDTO article);
 
         /// <summary>
         /// 发布文章
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        Task<ArticleDTO> Publish(string id);
+        Task<OpResponse<ArticleDTO>> Publish(string id);
     }
 }

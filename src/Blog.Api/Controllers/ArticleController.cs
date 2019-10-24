@@ -1,11 +1,11 @@
 ﻿using Blog.Core.DTOs;
 using Blog.Core.Models;
 using Blog.Core.Services;
-using Blog.Core.Sparrow.ApiControllers;
-using Blog.Core.Sparrow.DTOs.Response;
-using Blog.Core.Sparrow.Services;
 using Microsoft.AspNetCore.Mvc;
+using Sparrow.Core.ApiControllers;
+using static Sparrow.Core.DTOs.Responses.OpResponse;
 using System.Threading.Tasks;
+using Sparrow.Core.DTOs.Responses;
 
 namespace Blog.Api.Controllers
 {
@@ -14,7 +14,7 @@ namespace Blog.Api.Controllers
     /// </summary>
     [Route("api/[controller]")]
     [ApiController]
-    public class ArticleController : CURLApiControllerBase<Article, string, ArticleCreateDTO, ArticleUpdateDTO, ArticleDTO>
+    public class ArticleController : ApiControllerBase<Article, string, ArticleCreateDTO, ArticleUpdateDTO, ArticleDTO>
     {
         private readonly IArticleService _articleService;
 
@@ -33,9 +33,9 @@ namespace Blog.Api.Controllers
         /// <param name="dto"></param>
         /// <returns></returns>
         [HttpPost("draft")]
-        public async Task<ApiResponse<ArticleDTO>> CreateDraft([FromBody]ArticleCreateDTO dto)
+        public async Task<OpResponse<ArticleDTO>> CreateDraft([FromBody]ArticleCreateDTO dto)
         {
-            return ApiResponse.Success(await _articleService.CreateDraft(dto));
+            return await _articleService.CreateDraft(dto);
         }
 
         /// <summary>
@@ -44,13 +44,13 @@ namespace Blog.Api.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpPut("publish/{id}")]
-        public async Task<ApiResponse> Publish(string id)
+        public async Task<OpResponse> Publish(string id)
         {
             var article = await _articleService.Publish(id);
             if (article != null)
-                return ApiResponse.Success(article);
+                return Success(article);
 
-            return ApiResponse.Failure();
+            return Failure();
         }
     }
 }

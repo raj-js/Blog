@@ -1,4 +1,4 @@
-﻿using Blog.Core.Sparrow;
+﻿using Sparrow.Core;
 using System;
 
 namespace Blog.Core.Models

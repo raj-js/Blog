@@ -1,6 +1,6 @@
 ﻿using Blog.Core.DTOs;
 using Blog.Core.Models;
-using Blog.Core.Sparrow.Mapping;
+using Sparrow.Core.Mapping;
 
 namespace Blog.Core.Mapping
 {

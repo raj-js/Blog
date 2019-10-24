@@ -1,10 +1,10 @@
 ﻿using Blog.Core.DTOs;
 using Blog.Core.Models;
-using Blog.Core.Sparrow.Services;
+using Sparrow.Core.Services;
 
 namespace Blog.Core.Services
 {
-    public interface ICommentService : ICURLService<Comment, string, CommentCreateDTO, CommentUpdateDTO, CommentDTO>
+    public interface ICommentService : IAppService<Comment, string, CommentCreateDTO, CommentUpdateDTO, CommentDTO>
     {
     }
 }

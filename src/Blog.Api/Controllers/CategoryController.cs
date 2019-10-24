@@ -1,8 +1,8 @@
 ﻿using Blog.Core.DTOs;
 using Blog.Core.Models;
-using Blog.Core.Sparrow.ApiControllers;
-using Blog.Core.Sparrow.Services;
 using Microsoft.AspNetCore.Mvc;
+using Sparrow.Core.ApiControllers;
+using Sparrow.Core.Services;
 
 namespace Blog.Api.Controllers
 {
@@ -11,13 +11,13 @@ namespace Blog.Api.Controllers
     /// </summary>
     [Route("api/[controller]")]
     [ApiController]
-    public class CategoryController : CURLApiControllerBase<Category, int, CategoryCreateDTO, CategoryUpdateDTO, CategoryDTO>
+    public class CategoryController : ApiControllerBase<Category, int, CategoryCreateDTO, CategoryUpdateDTO, CategoryDTO>
     {
         /// <summary>
         /// gouza构造器
         /// </summary>
         /// <param name="curlService"></param>
-        public CategoryController(ICURLService<Category, int, CategoryCreateDTO, CategoryUpdateDTO, CategoryDTO> curlService) : base(curlService)
+        public CategoryController(IAppService<Category, int, CategoryCreateDTO, CategoryUpdateDTO, CategoryDTO> curlService) : base(curlService)
         {
         }
     }

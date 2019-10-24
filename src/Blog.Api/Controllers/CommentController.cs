@@ -1,8 +1,8 @@
 ﻿using Blog.Core.DTOs;
 using Blog.Core.Models;
-using Blog.Core.Sparrow.ApiControllers;
-using Blog.Core.Sparrow.Services;
 using Microsoft.AspNetCore.Mvc;
+using Sparrow.Core.ApiControllers;
+using Sparrow.Core.Services;
 
 namespace Blog.Api.Controllers
 {
@@ -11,13 +11,13 @@ namespace Blog.Api.Controllers
     /// </summary>
     [Route("api/[controller]")]
     [ApiController]
-    public class CommentController : CURLApiControllerBase<Comment, string, CommentCreateDTO, CommentUpdateDTO, CommentDTO>
+    public class CommentController : ApiControllerBase<Comment, string, CommentCreateDTO, CommentUpdateDTO, CommentDTO>
     {
         /// <summary>
         /// 构造器
         /// </summary>
         /// <param name="curlService"></param>
-        public CommentController(ICURLService<Comment, string, CommentCreateDTO, CommentUpdateDTO, CommentDTO> curlService) : base(curlService)
+        public CommentController(IAppService<Comment, string, CommentCreateDTO, CommentUpdateDTO, CommentDTO> curlService) : base(curlService)
         {
         }
     }

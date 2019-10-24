@@ -1,9 +1,6 @@
 ﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using AutoMapper;
-using Blog.Core.Sparrow;
-using Blog.Core.Sparrow.Mapping;
-using Blog.Stores.Mongo;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -14,18 +11,36 @@ using MongoDB.Driver;
 using Swashbuckle.AspNetCore.Swagger;
 using System;
 using System.Reflection;
+using Sparrow.Stores.Mongo;
+using Sparrow.Core.Mapping;
+using Sparrow.Core;
 
 namespace Blog.Api
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class Startup
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="configuration"></param>
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
 
+        /// <summary>
+        /// 配置
+        /// </summary>
         public IConfiguration Configuration { get; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="services"></param>
+        /// <returns></returns>
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             var assemblies = new Assembly[] { GetType().Assembly };
@@ -66,6 +81,11 @@ namespace Blog.Api
             return new AutofacServiceProvider(iocBuilder.Build());
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="app"></param>
+        /// <param name="env"></param>
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())

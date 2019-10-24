@@ -1,14 +1,16 @@
-﻿using System;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Blog.Core.DTOs;
 using Blog.Core.Models;
-using Blog.Core.Sparrow.Services;
-using Blog.Core.Sparrow.Stores;
+using Sparrow.Core.DTOs.Responses;
+using Sparrow.Core.Services;
+using Sparrow.Core.Stores;
+using System;
+using System.Threading.Tasks;
+using static Sparrow.Core.DTOs.Responses.OpResponse;
 
 namespace Blog.Core.Services
 {
-    public class ArticleService : CURLService<Article, string, ArticleCreateDTO, ArticleUpdateDTO, ArticleDTO>, IArticleService
+    public class ArticleService : AppServiceBase<Article, string, ArticleCreateDTO, ArticleUpdateDTO, ArticleDTO>, IArticleService
     {
         public ArticleService(IMapper mapper, ICURLStore<Article, string> store) :
             base(mapper, store)
@@ -16,7 +18,7 @@ namespace Blog.Core.Services
 
         }
 
-        public async Task<ArticleDTO> CreateDraft(ArticleCreateDTO article)
+        public async Task<OpResponse<ArticleDTO>> CreateDraft(ArticleCreateDTO article)
         {
             var entity = ToEntity(article);
             entity.Reads = 0;
@@ -26,15 +28,15 @@ namespace Blog.Core.Services
             entity.Creation = DateTime.Now;
             entity.PublishTime = null;
             
-            return ToDTO(await Store.CreateAsync(entity));
+            return Success(ToDTO(await Store.CreateAsync(entity)));
         }
 
-        public async Task<ArticleDTO> Publish(string id)
+        public async Task<OpResponse<ArticleDTO>> Publish(string id)
         {
             var entity = await Store.FindAsync(id);
 
             if (entity == null)
-                return null;
+                return Failure<ArticleDTO>();
 
             if (entity.IsDraft)
             {
@@ -44,7 +46,7 @@ namespace Blog.Core.Services
                 entity = await Store.UpdateAsync(entity);
             }
 
-            return ToDTO(entity);
+            return Success(ToDTO(entity));
         }
     }
 }

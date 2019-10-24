@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Blog.Infrastructure\Blog.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\..\Sparrow.Net\src\Sparrow.Core\Sparrow.Core.csproj" />
   </ItemGroup>
 
 </Project>

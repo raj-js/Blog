@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>G:\随笔\gits\Blog\src\Blog.Api\Blog.Api.xml</DocumentationFile>
+    <DocumentationFile>E:\gits\Blog\src\Blog.Api\Blog.Api.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -20,8 +20,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Sparrow.Net\src\Sparrow.AspNetCore\Sparrow.AspNetCore.csproj" />
+    <ProjectReference Include="..\..\..\Sparrow.Net\src\Sparrow.Stores.Mongo\Sparrow.Stores.Mongo.csproj" />
     <ProjectReference Include="..\Blog.Core\Blog.Core.csproj" />
-    <ProjectReference Include="..\Blog.Stores.Mongo\Blog.Stores.Mongo.csproj" />
   </ItemGroup>
 
   <ItemGroup>
