@@ -3,7 +3,7 @@
         <v-row justify="center">
             <v-col cols="12">
                 <v-timeline dense>
-                    <v-timeline-item v-for="(item, i) in items" :key="i" color="amber" small>
+                    <v-timeline-item v-for="(item, i) in items" :key="i" small>
                         <v-card>
                             <v-list-item three-line>
                                 <v-list-item-content>
