@@ -5,7 +5,7 @@ using Sparrow.Core.Mapping;
 
 namespace Blog.Core.Mapping
 {
-    public class ArticleMapperConfiguration : MapperConfigurationBase<Article, ArticleCreateDTO, ArticleUpdateDTO, ArticleDTO>
+    public class ArticleMapperConfiguration : MapperConfigurationBase<Article, ArticleCreateDTO, ArticleUpdateDTO, ArticleListItemDTO, ArticleDTO>
     {
         public override void Config(IMapperConfigurationExpression cfg)
         {

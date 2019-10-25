@@ -1,6 +1,8 @@
 ﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using AutoMapper;
+using Blog.Core.Mapping;
+using Blog.Core.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -8,12 +10,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using MongoDB.Driver;
+using Sparrow.Core;
+using Sparrow.Core.Mapping;
+using Sparrow.Stores.Mongo;
 using Swashbuckle.AspNetCore.Swagger;
 using System;
 using System.Reflection;
-using Sparrow.Stores.Mongo;
-using Sparrow.Core.Mapping;
-using Sparrow.Core;
 
 namespace Blog.Api
 {
@@ -43,8 +45,8 @@ namespace Blog.Api
         /// <returns></returns>
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
-            var assemblies = new Assembly[] { GetType().Assembly };
-
+            var coreAssembly = typeof(ArticleMapperConfiguration).Assembly;
+            var assemblies = new Assembly[] { GetType().Assembly, coreAssembly };
             services.AddAutoMapper(cfg =>
             {
                 cfg.AppliyMapperConfigurations(assemblies);
@@ -59,16 +61,14 @@ namespace Blog.Api
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info { Title = "API", Version = "v1" });
-
                 c.IncludeXmlComments("Blog.Api.xml");
             });
 
             var iocBuilder = new ContainerBuilder();
-
             iocBuilder.Populate(services);
 
             iocBuilder.AddSparrow();
-
+            iocBuilder.RegisteAppServices();
             iocBuilder.AddMongo(setting =>
             {
                 var host = Configuration["MongoServer:Host"];
@@ -98,7 +98,10 @@ namespace Blog.Api
 
             app.UseSparrow();
 
-            app.UseMvc();
+            app.UseMvc(routes => 
+            {
+                routes.MapRoute("default", "{controller=Home}/{action=Index}/{id?}");
+            });
         }
     }
 }

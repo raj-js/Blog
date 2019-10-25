@@ -1,11 +1,11 @@
 ﻿using Blog.Core.DTOs;
-using Blog.Core.Models;
 using Blog.Core.Services;
 using Microsoft.AspNetCore.Mvc;
 using Sparrow.Core.ApiControllers;
-using static Sparrow.Core.DTOs.Responses.OpResponse;
-using System.Threading.Tasks;
+using Sparrow.Core.DTOs.Paging;
 using Sparrow.Core.DTOs.Responses;
+using System.Threading.Tasks;
+using static Sparrow.Core.DTOs.Responses.OpResponse;
 
 namespace Blog.Api.Controllers
 {
@@ -14,7 +14,7 @@ namespace Blog.Api.Controllers
     /// </summary>
     [Route("api/[controller]")]
     [ApiController]
-    public class ArticleController : ApiControllerBase<Article, string, ArticleCreateDTO, ArticleUpdateDTO, ArticleDTO>
+    public class ArticleController : ApiControllerBase
     {
         private readonly IArticleService _articleService;
 
@@ -22,9 +22,26 @@ namespace Blog.Api.Controllers
         /// 构造
         /// </summary>
         /// <param name="articleService"></param>
-        public ArticleController(IArticleService articleService) : base(articleService)
+        public ArticleController(IArticleService articleService)
         {
             _articleService = articleService;
+        }
+
+        /// <summary>
+        /// 分页查询
+        /// </summary>
+        /// <param name="query"></param>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        [HttpGet("paging")]
+        public async Task<OpResponse<Paged<ArticleListItemDTO>>> Paging([FromQuery]PageQuery query, [FromQuery]ArticleQueryDTO dto)
+        {
+            var opResponse = await _articleService.PageQuery(dto, query.PageIndex, query.PageSize, (query.Order, query.IsAsc));
+
+            if (opResponse.IsSuccess)
+                return Success(PagingHelper.From(opResponse.Data));
+
+            return Failure<Paged<ArticleListItemDTO>>();
         }
 
         /// <summary>
@@ -33,9 +50,9 @@ namespace Blog.Api.Controllers
         /// <param name="dto"></param>
         /// <returns></returns>
         [HttpPost("draft")]
-        public async Task<OpResponse<ArticleDTO>> CreateDraft([FromBody]ArticleCreateDTO dto)
+        public async Task<OpResponse<string>> CreateDraft([FromBody]ArticleCreateDTO dto)
         {
-            return await _articleService.CreateDraft(dto);
+            return await _articleService.SaveAsDraft(dto);
         }
 
         /// <summary>
@@ -47,10 +64,7 @@ namespace Blog.Api.Controllers
         public async Task<OpResponse> Publish(string id)
         {
             var article = await _articleService.Publish(id);
-            if (article != null)
-                return Success(article);
-
-            return Failure();
+            return article != null ? Success() : Failure();
         }
     }
 }

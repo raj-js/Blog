@@ -6,8 +6,12 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>E:\gits\Blog\src\Blog.Api\Blog.Api.xml</DocumentationFile>
+    <DocumentationFile>G:\随笔\gits\Blog\src\Blog.Api\Blog.Api.xml</DocumentationFile>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Blog.Api.xml" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="5.0.1" />
@@ -26,9 +30,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Blog.Api.xml">
+    <Content Include="Blog.Api.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    </Content>
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>

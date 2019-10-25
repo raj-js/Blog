@@ -29,6 +29,13 @@
             <param name="id"></param>
             <returns></returns>
         </member>
+        <member name="M:Blog.Api.Controllers.ArticleController.Paging(Sparrow.Core.DTOs.Paging.PageQuery{Blog.Core.DTOs.ArticleQueryDTO},Blog.Core.DTOs.ArticleQueryDTO)">
+            <summary>
+            分页查询
+            </summary>
+            <param name="query"></param>
+            <returns></returns>
+        </member>
         <member name="T:Blog.Api.Controllers.CategoryController">
             <summary>
             类别
@@ -50,6 +57,17 @@
             构造器
             </summary>
             <param name="curlService"></param>
+        </member>
+        <member name="T:Blog.Api.Controllers.HomeController">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Blog.Api.Controllers.HomeController.Index">
+            <summary>
+            跳转 swagger
+            </summary>
+            <returns></returns>
         </member>
         <member name="T:Blog.Api.Controllers.TagController">
             <summary>

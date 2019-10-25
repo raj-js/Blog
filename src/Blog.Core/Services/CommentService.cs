@@ -8,7 +8,7 @@ namespace Blog.Core.Services
 {
     public class CommentService : AppServiceBase<Comment, string, CommentCreateDTO, CommentUpdateDTO, CommentDTO>, ICommentService
     {
-        public CommentService(IMapper mapper, ICURLStore<Comment, string> store) : base(mapper, store)
+        public CommentService(IMapper mapper, IStore<Comment, string> store) : base(mapper, store)
         {
         }
     }

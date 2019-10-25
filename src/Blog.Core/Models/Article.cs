@@ -13,6 +13,10 @@ namespace Blog.Core.Models
 
         public string Content { get; set; }
 
+        public int Category { get; set; }
+
+        public int[] Tags { get; set; }
+
         public int Reads { get; set; }
 
         public int Likes { get; set; }
