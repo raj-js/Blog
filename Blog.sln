@@ -17,6 +17,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sparrow.Infrastructure", ".
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sparrow.Stores.Mongo", "..\Sparrow.Net\src\Sparrow.Stores.Mongo\Sparrow.Stores.Mongo.csproj", "{BC424057-5665-46FD-87F5-B69B08EC03FE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sparrow.Stores.EntityFrameworkCore", "..\Sparrow.Net\src\Sparrow.Stores.EntityFrameworkCore\Sparrow.Stores.EntityFrameworkCore.csproj", "{7A0C4A58-CFCA-42B2-96AE-D1F49A858E54}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +49,10 @@ Global
 		{BC424057-5665-46FD-87F5-B69B08EC03FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BC424057-5665-46FD-87F5-B69B08EC03FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BC424057-5665-46FD-87F5-B69B08EC03FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7A0C4A58-CFCA-42B2-96AE-D1F49A858E54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A0C4A58-CFCA-42B2-96AE-D1F49A858E54}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A0C4A58-CFCA-42B2-96AE-D1F49A858E54}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A0C4A58-CFCA-42B2-96AE-D1F49A858E54}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -56,6 +62,7 @@ Global
 		{06FC99D6-F6B7-4326-A907-4CA61CF85740} = {F5FE5F8E-01FE-44E2-A2D9-5EC1E5E93764}
 		{BDCCEFE0-7002-4318-9138-FB42E21A91C8} = {F5FE5F8E-01FE-44E2-A2D9-5EC1E5E93764}
 		{BC424057-5665-46FD-87F5-B69B08EC03FE} = {F5FE5F8E-01FE-44E2-A2D9-5EC1E5E93764}
+		{7A0C4A58-CFCA-42B2-96AE-D1F49A858E54} = {F5FE5F8E-01FE-44E2-A2D9-5EC1E5E93764}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {027D29BD-98D2-46A7-B973-39745C9A6A1B}

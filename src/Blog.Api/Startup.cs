@@ -69,7 +69,7 @@ namespace Blog.Api
 
             iocBuilder.AddSparrow();
             iocBuilder.RegisteAppServices();
-            iocBuilder.AddMongo(setting =>
+            iocBuilder.AddSparrowMongo(setting =>
             {
                 var host = Configuration["MongoServer:Host"];
                 var port = Configuration["MongoServer:Port"];

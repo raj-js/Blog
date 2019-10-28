@@ -219,11 +219,11 @@ namespace Blog.Core.DTOs
         /// <summary>
         /// 分类
         /// </summary>
-        public int Category { get; set; }
+        public string Category { get; set; }
 
         /// <summary>
         /// 标签
         /// </summary>
-        public int[] Tags { get; set; }
+        public string[] Tags { get; set; }
     }
 }

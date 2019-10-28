@@ -18,30 +18,41 @@ namespace Blog.Core.Services
     {
         private readonly IMapper _mapper;
         private readonly IStore<Article, string> _store;
+        private readonly IStore<Category, int> _categoryStore;
+        private readonly IStore<Tag, int> _tagStore;
+        private readonly IStore<ArticleCategory, long> _articleCategoryStore;
+        private readonly IStore<ArticleTag, long> _articleTagStore;
 
-        public ArticleService(IMapper mapper, IStore<Article, string> store)
+        public ArticleService(
+            IMapper mapper,
+            IStore<Article, string> store,
+            IStore<Category, int> categoryStore,
+            IStore<Tag, int> tagStore,
+            IStore<ArticleCategory, long> articleCategoryStore,
+            IStore<ArticleTag, long> articleTagStore
+            )
         {
             _mapper = mapper;
             _store = store;
+            _categoryStore = categoryStore;
+            _tagStore = tagStore;
+            _articleCategoryStore = articleCategoryStore;
+            _articleTagStore = articleTagStore;
         }
 
-        public async Task<OpResponse<string>> SaveAsDraft(ArticleCreateDTO article)
+        public Task<OpResponse<string>> SaveAsDraft(ArticleCreateDTO article)
         {
-            var entity = _mapper.Map<Article>(article);
-            entity.Reads = 0;
-            entity.Likes = 0;
-            entity.IsDraft = true;
-            entity.IsDeleted = false;
-            entity.Creation = DateTime.Now;
-            entity.PublishTime = null;
-            
-            return Success(await _store.CreateAndGetIdAsync(entity));
+            return SaveNewArticle(article, asDraft: true);
+        }
+
+        public Task<OpResponse<string>> PublishImmediately(ArticleCreateDTO article)
+        {
+            return SaveNewArticle(article, asDraft: false);
         }
 
         public async Task<OpResponse> Publish(string id)
         {
             var entity = await _store.FindAsync(id);
-
             if (entity == null)
                 return Failure("404", $"编号为`{id}`的文章不存在");
 
@@ -51,6 +62,8 @@ namespace Blog.Core.Services
                 entity.PublishTime = DateTime.Now;
 
                 await _store.UpdateAsync(entity);
+                await _store.SaveAsync();
+
                 return Success();
             }
 
@@ -62,17 +75,153 @@ namespace Blog.Core.Services
             Expression<Func<Article, bool>> exp = s => true;
 
             if (query.Category != null)
-                exp = exp.And(s => s.Category == query.Category.Value);
+            {
+                var articleIds = _articleCategoryStore
+                    .Query()
+                    .Where(s => s.CategoryId == query.Category.Value)
+                    .Select(s => s.ArticleId);
+
+                exp = exp.And(s => articleIds.Contains(s.Id));
+            }
 
             if (query.Tag != null)
-                exp = exp.And(s => s.Tags.Contains(query.Tag.Value));
+            {
+                var articleIds = _articleTagStore
+                        .Query()
+                        .Where(s => s.TagId == query.Tag.Value)
+                        .Select(s => s.ArticleId);
+
+                exp = exp.And(s => articleIds.Contains(s.Id));
+            }
 
             var (Entities, Total) = await _store.PageQuery(exp, sortFields, pageIndex, pageSize);
 
             return Success((
-                Entities.Select(_mapper.Map<ArticleListItemDTO>).ToList(),
+                Entities.Select(ToArticleListItem).ToList(),
                 Total
                 ));
         }
+
+        public async Task<OpResponse> ModifyArticle(ArticleUpdateDTO article)
+        {
+            var entity = await _store.FindAsync(article.Id);
+            if (entity == null)
+                return Failure("404", $"编号为`{article.Id}`的文章不存在");
+
+            entity = _mapper.Map(article, entity);
+            await _store.UpdateAsync(entity);
+
+            var articleCategory = await _articleCategoryStore.SingleAsync(s => s.ArticleId == entity.Id);
+            articleCategory.CategoryId = article.Category;
+
+            await _articleTagStore.RemoveAsync(s => s.ArticleId == entity.Id && !article.Tags.Contains(s.TagId));
+
+            var articleTags = _articleTagStore
+                .Query()
+                .Where(s => s.ArticleId == entity.Id && article.Tags.Contains(s.TagId))
+                .Select(s => s.TagId)
+                .ToArray();
+
+            var newTags = article.Tags
+                .Where(s => !articleTags.Contains(s))
+                .Select(tagId => new ArticleTag { ArticleId = entity.Id, TagId = tagId });
+
+            await _articleTagStore.CreateManyAsync(newTags);
+
+            await _store.SaveAsync();
+            return Success();
+        }
+
+        public async Task<OpResponse> MarkAsDeleted(string id)
+        {
+            var entity = await _store.FindAsync(id);
+            if (entity == null)
+                return Failure("404", $"编号为`{id}`的文章不存在");
+
+            entity.IsDeleted = true;
+            await _store.UpdateAsync(entity);
+            await _store.SaveAsync();
+
+            return Success();
+        }
+
+        public async Task<OpResponse> MarkAsTop(string id)
+        {
+            var entity = await _store.FindAsync(id);
+            if (entity == null)
+                return Failure("404", $"编号为`{id}`的文章不存在");
+
+            if (entity.IsDeleted)
+                return Failure("500", $"编号为`{id}`的文章已删除");
+
+            if (entity.IsDraft)
+                return Failure("500", $"编号为`{id}`的文章未发布");
+
+            entity.IsTop = true;
+            await _store.UpdateAsync(entity);
+            await _store.SaveAsync();
+
+            return Success();
+        }
+
+        #region privates
+
+        private async Task<OpResponse<string>> SaveNewArticle(ArticleCreateDTO article, bool asDraft)
+        {
+            var entity = _mapper.Map<Article>(article);
+
+            entity.Reads = 0;
+            entity.Likes = 0;
+            entity.IsDraft = asDraft;
+            entity.IsDeleted = false;
+            entity.Creation = DateTime.Now;
+            entity.PublishTime = asDraft ? null : new DateTime?(DateTime.Now);
+
+            var articleId = await _store.CreateAndGetIdAsync(entity);
+
+            var articleCategory = new ArticleCategory
+            {
+                ArticleId = articleId,
+                CategoryId = article.Category
+            };
+            await _articleCategoryStore.CreateAsync(articleCategory);
+
+            var articleTags = article.Tags.Select(tagId => new ArticleTag
+            {
+                ArticleId = articleId,
+                TagId = tagId
+            });
+            await _articleTagStore.CreateManyAsync(articleTags);
+
+            await _store.SaveAsync();
+
+            return Success(articleId);
+        }
+
+        private ArticleListItemDTO ToArticleListItem(Article article)
+        {
+            var dto = _mapper.Map<ArticleListItemDTO>(article);
+
+            var articleCategory = _articleCategoryStore.Single(s => s.ArticleId == article.Id);
+            var category = _categoryStore.Find(articleCategory.CategoryId);
+
+            var articleTags = _articleTagStore
+                .Query()
+                .Where(s => s.ArticleId == article.Id)
+                .Select(s => s.TagId)
+                .ToArray();
+
+            var tags = _tagStore
+                .Query()
+                .Where(s => articleTags.Contains(s.Id))
+                .ToArray();
+
+            dto.Category = category.Name;
+            dto.Tags = tags.Select(s => s.Name).ToArray();
+
+            return dto;
+        }
+
+        #endregion
     }
 }

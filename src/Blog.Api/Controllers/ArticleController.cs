@@ -50,9 +50,31 @@ namespace Blog.Api.Controllers
         /// <param name="dto"></param>
         /// <returns></returns>
         [HttpPost("draft")]
-        public async Task<OpResponse<string>> CreateDraft([FromBody]ArticleCreateDTO dto)
+        public async Task<OpResponse<string>> Draft([FromBody]ArticleCreateDTO dto)
         {
             return await _articleService.SaveAsDraft(dto);
+        }
+
+        /// <summary>
+        /// 立即发布
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        [HttpPost("publish")]
+        public async Task<OpResponse<string>> Publish([FromBody]ArticleCreateDTO dto)
+        {
+            return await _articleService.PublishImmediately(dto);
+        }
+
+        /// <summary>
+        /// 修改文章
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        [HttpPut]
+        public async Task<OpResponse> Put([FromBody]ArticleUpdateDTO dto)
+        {
+            return await _articleService.ModifyArticle(dto);
         }
 
         /// <summary>
@@ -61,10 +83,32 @@ namespace Blog.Api.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpPut("publish/{id}")]
-        public async Task<OpResponse> Publish(string id)
+        public async Task<OpResponse> Publish([FromRoute]string id)
         {
             var article = await _articleService.Publish(id);
             return article != null ? Success() : Failure();
+        }
+
+        /// <summary>
+        /// 删除文章
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpDelete("{id}")]
+        public async Task<OpResponse> Delete([FromRoute]string id)
+        {
+            return await _articleService.MarkAsDeleted(id);
+        }
+
+        /// <summary>
+        /// 置顶文章
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpPut("markAsTop/{id}")]
+        public async Task<OpResponse> MarkAsTop([FromRoute]string id)
+        {
+            return await _articleService.MarkAsTop(id);
         }
     }
 }

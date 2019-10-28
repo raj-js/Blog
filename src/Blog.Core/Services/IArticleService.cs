@@ -1,5 +1,4 @@
 ﻿using Blog.Core.DTOs;
-using Blog.Core.Models;
 using Sparrow.Core.DTOs.Responses;
 using Sparrow.Core.Services;
 using System.Collections.Generic;
@@ -18,6 +17,34 @@ namespace Blog.Core.Services
         /// <param name="article"></param>
         /// <returns></returns>
         Task<OpResponse<string>> SaveAsDraft(ArticleCreateDTO article);
+
+        /// <summary>
+        /// 立即发布
+        /// </summary>
+        /// <param name="article"></param>
+        /// <returns></returns>
+        Task<OpResponse<string>> PublishImmediately(ArticleCreateDTO article);
+
+        /// <summary>
+        /// 修改文章
+        /// </summary>
+        /// <param name="article"></param>
+        /// <returns></returns>
+        Task<OpResponse> ModifyArticle(ArticleUpdateDTO article);
+
+        /// <summary>
+        /// 删除文章
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task<OpResponse> MarkAsDeleted(string id);
+
+        /// <summary>
+        /// 置顶文章
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task<OpResponse> MarkAsTop(string id);
 
         /// <summary>
         /// 发布文章
