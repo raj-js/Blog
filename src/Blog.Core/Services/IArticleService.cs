@@ -62,5 +62,12 @@ namespace Blog.Core.Services
         /// <param name="sortFields"></param>
         /// <returns></returns>
         Task<OpResponse<(List<ArticleListItemDTO> List, long Total)>> PageQuery(ArticleQueryDTO query, int pageIndex, int pageSize, params (string Field, bool IsAsc)[] sortFields);
+
+        /// <summary>
+        /// 获取文章详情
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task<OpResponse<ArticleDTO>> Get(string id);
     }
 }

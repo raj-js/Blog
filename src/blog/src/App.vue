@@ -37,7 +37,7 @@
 		</v-navigation-drawer>
 
 		<v-content class="grey lighten-4">
-			<v-container fluid class="fill-height">
+			<v-container fluid>
 				<v-fade-transition mode="out-in">
 					<router-view></router-view>
 				</v-fade-transition>

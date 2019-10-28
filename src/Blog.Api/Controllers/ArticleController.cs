@@ -45,6 +45,17 @@ namespace Blog.Api.Controllers
         }
 
         /// <summary>
+        /// 获取文章详情
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("{id}")]
+        public async Task<OpResponse<ArticleDTO>> Get([FromRoute]string id) 
+        {
+            return await _articleService.Get(id);
+        }
+
+        /// <summary>
         /// 创建草稿
         /// </summary>
         /// <param name="dto"></param>

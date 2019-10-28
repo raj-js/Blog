@@ -23,6 +23,13 @@
             <param name="dto"></param>
             <returns></returns>
         </member>
+        <member name="M:Blog.Api.Controllers.ArticleController.Get(System.String)">
+            <summary>
+            获取文章详情
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
         <member name="M:Blog.Api.Controllers.ArticleController.Draft(Blog.Core.DTOs.ArticleCreateDTO)">
             <summary>
             创建草稿

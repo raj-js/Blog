@@ -164,6 +164,23 @@ namespace Blog.Core.Services
             return Success();
         }
 
+        public async Task<OpResponse<ArticleDTO>> Get(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+                return Failure<ArticleDTO>("404", $"编号为`{id}`的文章不存在");
+
+            var entity = await _store.FindAsync(id);
+            if (entity == null)
+                return Failure<ArticleDTO>("404", $"编号为`{id}`的文章不存在");
+
+            var article = _mapper.Map<ArticleDTO>(entity);
+
+            article.Category = GetCategory(article.Id);
+            article.Tags = GetTags(article.Id);
+
+            return Success(article);
+        }
+
         #region privates
 
         private async Task<OpResponse<string>> SaveNewArticle(ArticleCreateDTO article, bool asDraft)
@@ -202,12 +219,26 @@ namespace Blog.Core.Services
         {
             var dto = _mapper.Map<ArticleListItemDTO>(article);
 
-            var articleCategory = _articleCategoryStore.Single(s => s.ArticleId == article.Id);
-            var category = _categoryStore.Find(articleCategory.CategoryId);
+            dto.Category = GetCategory(article.Id);
+            dto.Tags = GetTags(article.Id);
 
+            return dto;
+        }
+
+
+
+        private string GetCategory(string articleId)
+        {
+            var articleCategory = _articleCategoryStore.Single(s => articleId.Equals(s.ArticleId));
+            var category = _categoryStore.Find(articleCategory.CategoryId);
+            return category.Name;
+        }
+
+        private string[] GetTags(string articleId)
+        {
             var articleTags = _articleTagStore
                 .Query()
-                .Where(s => s.ArticleId == article.Id)
+                .Where(s => articleId.Equals(s.ArticleId))
                 .Select(s => s.TagId)
                 .ToArray();
 
@@ -216,10 +247,7 @@ namespace Blog.Core.Services
                 .Where(s => articleTags.Contains(s.Id))
                 .ToArray();
 
-            dto.Category = category.Name;
-            dto.Tags = tags.Select(s => s.Name).ToArray();
-
-            return dto;
+            return tags.Select(s => s.Name).ToArray();
         }
 
         #endregion

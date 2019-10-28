@@ -64,6 +64,17 @@ namespace Blog.Api
                 c.IncludeXmlComments("Blog.Api.xml");
             });
 
+            services.AddCors(opt =>
+            {
+                opt.AddPolicy("default", builder =>
+                {
+                    builder
+                        .AllowAnyOrigin()
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                });
+            });
+
             var iocBuilder = new ContainerBuilder();
             iocBuilder.Populate(services);
 
@@ -96,9 +107,11 @@ namespace Blog.Api
             app.UseSwagger();
             app.UseSwaggerUI(setup => setup.SwaggerEndpoint("/swagger/v1/swagger.json", "API V1"));
 
+            app.UseCors("default");
+
             app.UseSparrow();
 
-            app.UseMvc(routes => 
+            app.UseMvc(routes =>
             {
                 routes.MapRoute("default", "{controller=Home}/{action=Index}/{id?}");
             });
