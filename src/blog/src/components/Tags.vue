@@ -11,9 +11,7 @@
 			<v-col cols="8">
 				<v-fade-transition mode="out-in" group>
 					<v-chip
-						v-show="showChip(item.text)"
-						:class="item.size"
-						:color="item.color"
+						v-show="showChip(item.name)"
 						text-color="white"
 						v-for="(item, i) in items"
 						:key="i"
@@ -21,8 +19,7 @@
 						<v-avatar left>
 							<v-icon>mdi-label</v-icon>
 						</v-avatar>
-						{{item.text}}
-						<v-avatar right class="green darken-4">{{item.articles}}</v-avatar>
+						{{item.name}}
 					</v-chip>
 				</v-fade-transition>
 			</v-col>
@@ -31,25 +28,15 @@
 </template>
 
 <script>
+	import tagService from '@/services/tagService'
+
 	export default {
 		data: () => ({
 			filter: "",
 			items: []
 		}),
 		mounted() {
-			const colors = ["red", "orange", "indigo", "primary", "green", "teal"];
-
-			this.items = [];
-
-			for (let i = 0; i < 100; i++) {
-				this.items.push({
-					text: `Docker ${i}`,
-					articles: this.random(0, 100),
-					icon: "mdi-label",
-					color: colors[this.random(0, colors.length - 1)],
-					size: `ma-${this.random(1, 5)}`
-				});
-			}
+			this.loadTags()
 		},
 		methods: {
 			filtering(e) {
@@ -64,6 +51,17 @@
 					this.filter.trim() == "" ||
 					text.indexOf(this.filter) != -1
 				);
+			},
+			loadTags() {
+				tagService
+					.all()
+					.then(data => {
+						this.items = [...this.items, ...data]
+					})
+					.catch(console.log)
+					.finally(()=> {
+						console.log('finally')
+					})
 			}
 		}
 	};
