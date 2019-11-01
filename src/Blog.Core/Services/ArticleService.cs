@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using Blog.Core.DTOs;
 using Blog.Core.Models;
+using Microsoft.AspNetCore.Http;
 using Sparrow.Core.DTOs.Responses;
 using Sparrow.Core.Services;
 using Sparrow.Core.Stores;
 using Sparrow.Infrastructure.Expressions;
+using Sparrow.Infrastructure.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +24,8 @@ namespace Blog.Core.Services
         private readonly IStore<Tag, int> _tagStore;
         private readonly IStore<ArticleCategory, long> _articleCategoryStore;
         private readonly IStore<ArticleTag, long> _articleTagStore;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IStore<ArticleVisitHistory, long> _articleVisitHistoryStore;
 
         public ArticleService(
             IMapper mapper,
@@ -29,7 +33,9 @@ namespace Blog.Core.Services
             IStore<Category, int> categoryStore,
             IStore<Tag, int> tagStore,
             IStore<ArticleCategory, long> articleCategoryStore,
-            IStore<ArticleTag, long> articleTagStore
+            IStore<ArticleTag, long> articleTagStore,
+            IHttpContextAccessor httpContextAccessor,
+            IStore<ArticleVisitHistory, long> articleVisitHistoryStore
             )
         {
             _mapper = mapper;
@@ -38,6 +44,8 @@ namespace Blog.Core.Services
             _tagStore = tagStore;
             _articleCategoryStore = articleCategoryStore;
             _articleTagStore = articleTagStore;
+            _httpContextAccessor = httpContextAccessor;
+            _articleVisitHistoryStore = articleVisitHistoryStore;
         }
 
         public Task<OpResponse<string>> SaveAsDraft(ArticleCreateDTO article)
@@ -79,7 +87,8 @@ namespace Blog.Core.Services
                 var articleIds = _articleCategoryStore
                     .Query()
                     .Where(s => s.CategoryId == query.Category.Value)
-                    .Select(s => s.ArticleId);
+                    .Select(s => s.ArticleId)
+                    .ToArray();
 
                 exp = exp.And(s => articleIds.Contains(s.Id));
             }
@@ -89,7 +98,8 @@ namespace Blog.Core.Services
                 var articleIds = _articleTagStore
                         .Query()
                         .Where(s => s.TagId == query.Tag.Value)
-                        .Select(s => s.ArticleId);
+                        .Select(s => s.ArticleId)
+                        .ToArray();
 
                 exp = exp.And(s => articleIds.Contains(s.Id));
             }
@@ -178,6 +188,8 @@ namespace Blog.Core.Services
             article.Category = GetCategory(article.Id);
             article.Tags = GetTags(article.Id);
 
+            await IncrementReads(entity);
+
             return Success(article);
         }
 
@@ -225,8 +237,6 @@ namespace Blog.Core.Services
             return dto;
         }
 
-
-
         private string GetCategory(string articleId)
         {
             var articleCategory = _articleCategoryStore.Single(s => articleId.Equals(s.ArticleId));
@@ -248,6 +258,36 @@ namespace Blog.Core.Services
                 .ToArray();
 
             return tags.Select(s => s.Name).ToArray();
+        }
+
+        private async Task IncrementReads(Article entity)
+        {
+            if (entity.IsDraft || entity.IsDeleted) return;
+
+            var clientIp = _httpContextAccessor.GetClientIp();
+
+            var flag = _articleVisitHistoryStore
+                .Query()
+                .Any(s =>
+                    s.ArticleId.Equals(entity.Id) &&
+                    s.Ip.Equals(clientIp) &&
+                    DateTime.Now.AddHours(-1) < s.VisitTime
+                );
+
+            if (!flag)
+            {
+                entity.Reads++;
+
+                await _store.UpdateAsync(entity);
+
+                await _articleVisitHistoryStore.CreateAsync(
+                    new ArticleVisitHistory
+                    {
+                        ArticleId = entity.Id,
+                        Ip = clientIp,
+                        VisitTime = DateTime.Now
+                    });
+            }
         }
 
         #endregion

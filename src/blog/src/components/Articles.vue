@@ -2,8 +2,8 @@
 	<v-container fluid>
 		<v-row justify="center" v-for="(article, i) in articles" :key="i">
 			<v-col>
-				<v-card>
-					<v-list-item three-line :to="`/article/${article.id}`">
+				<v-card :to="`/article/${article.id}`">
+					<v-list-item three-line>
 						<v-list-item-content>
 							<v-list-item-title class="headline mb-1">{{article.title}}</v-list-item-title>
 							<v-list-item-subtitle>{{article.digest}}</v-list-item-subtitle>
@@ -73,9 +73,9 @@ export default {
           let { list, total } = data
           console.log(total)
 
+          this.hasMore = list.length != 0 && list.length == this.pageSize
           if (list.length > 0) {
             this.pageIndex++
-            this.hasMore = list.length == this.pageSize
           }
           this.articles = [...this.articles, ...list];
         })

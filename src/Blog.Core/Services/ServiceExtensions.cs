@@ -6,8 +6,9 @@ namespace Blog.Core.Services
     {
         public static void RegisteAppServices(this ContainerBuilder builder)
         {
-            builder.RegisterType<ArticleService>().AsImplementedInterfaces().InstancePerLifetimeScope();
-            builder.RegisterType<CommentService>().AsImplementedInterfaces().InstancePerLifetimeScope();
+            builder.RegisterType(typeof(ArticleService)).AsImplementedInterfaces().InstancePerLifetimeScope();
+            builder.RegisterType(typeof(CategoryService)).AsImplementedInterfaces().InstancePerLifetimeScope();
+            builder.RegisterType(typeof(CommentService)).AsImplementedInterfaces().InstancePerLifetimeScope();
         }
     }
 }

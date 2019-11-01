@@ -15,6 +15,7 @@
 						text-color="white"
 						v-for="(item, i) in items"
 						:key="i"
+						:to="`/?tag=${item.id}`"
 					>
 						<v-avatar left>
 							<v-icon>mdi-label</v-icon>

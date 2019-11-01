@@ -6,7 +6,8 @@ export default {
         DETAILS: `${BASE_URL}/api/article`
     },
     CATEGORY: {
-        ALL: `${BASE_URL}/api/category/all`
+        ALL: `${BASE_URL}/api/category/all`,
+        COVER: `${BASE_URL}/api/category/cover`
     },
     TAG: {
         ALL: `${BASE_URL}/api/tag/all`

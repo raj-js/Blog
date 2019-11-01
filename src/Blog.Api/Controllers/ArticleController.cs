@@ -66,7 +66,6 @@ namespace Blog.Api.Controllers
         /// <param name="dto"></param>
         /// <returns></returns>
         [HttpPost("draft")]
-        [Authorize]
         public async Task<OpResponse<string>> Draft([FromBody]ArticleCreateDTO dto)
         {
             return await _articleService.SaveAsDraft(dto);
@@ -78,7 +77,6 @@ namespace Blog.Api.Controllers
         /// <param name="dto"></param>
         /// <returns></returns>
         [HttpPost("publish")]
-        [Authorize]
         public async Task<OpResponse<string>> Publish([FromBody]ArticleCreateDTO dto)
         {
             return await _articleService.PublishImmediately(dto);
@@ -90,7 +88,6 @@ namespace Blog.Api.Controllers
         /// <param name="dto"></param>
         /// <returns></returns>
         [HttpPut]
-        [Authorize]
         public async Task<OpResponse> Put([FromBody]ArticleUpdateDTO dto)
         {
             return await _articleService.ModifyArticle(dto);
@@ -102,7 +99,6 @@ namespace Blog.Api.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpPut("publish/{id}")]
-        [Authorize]
         public async Task<OpResponse> Publish([FromRoute]string id)
         {
             var article = await _articleService.Publish(id);
@@ -115,7 +111,6 @@ namespace Blog.Api.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpDelete("{id}")]
-        [Authorize]
         public async Task<OpResponse> Delete([FromRoute]string id)
         {
             return await _articleService.MarkAsDeleted(id);
@@ -127,7 +122,6 @@ namespace Blog.Api.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpPut("markAsTop/{id}")]
-        [Authorize]
         public async Task<OpResponse> MarkAsTop([FromRoute]string id)
         {
             return await _articleService.MarkAsTop(id);

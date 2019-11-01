@@ -77,11 +77,25 @@
             类别
             </summary>
         </member>
-        <member name="M:Blog.Api.Controllers.CategoryController.#ctor(Sparrow.Core.Services.IAppService{Blog.Core.Models.Category,System.Int32,Blog.Core.DTOs.CategoryCreateDTO,Blog.Core.DTOs.CategoryUpdateDTO,Blog.Core.DTOs.CategoryDTO})">
+        <member name="M:Blog.Api.Controllers.CategoryController.#ctor(Blog.Core.Services.ICategoryService)">
             <summary>
-            gouza构造器
+            构造器
             </summary>
-            <param name="curlService"></param>
+            <param name="categoryService"></param>
+        </member>
+        <member name="M:Blog.Api.Controllers.CategoryController.Post(Blog.Core.DTOs.CategoryCreateDTO)">
+            <summary>
+            新增
+            </summary>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Blog.Api.Controllers.CategoryController.GetCover(System.Int32)">
+            <summary>
+            获取分类封面
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
         </member>
         <member name="T:Blog.Api.Controllers.CommentController">
             <summary>

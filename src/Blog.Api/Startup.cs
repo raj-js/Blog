@@ -15,7 +15,6 @@ using Sparrow.Core.Mapping;
 using Sparrow.Stores.Mongo;
 using Swashbuckle.AspNetCore.Swagger;
 using System;
-using System.Globalization;
 using System.Reflection;
 
 namespace Blog.Api
@@ -56,6 +55,10 @@ namespace Blog.Api
             services.AddLogging(
                 builder => builder.AddConsole()
                 );
+
+            services.AddHttpContextAccessor();
+            services.AddResponseCaching();
+            services.AddResponseCompression();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
@@ -107,6 +110,9 @@ namespace Blog.Api
 
             app.UseSwagger();
             app.UseSwaggerUI(setup => setup.SwaggerEndpoint("/swagger/v1/swagger.json", "API V1"));
+
+            app.UseResponseCaching();
+            app.UseResponseCompression();
 
             app.UseCors("default");
 
