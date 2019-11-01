@@ -66,13 +66,13 @@ namespace Blog.Core.Services
                  .Select(s => s.ArticleId)
                  .ToArray();
 
-            return (
-                articleIds.LongCount(),
-
+             return (
                 _articleStore
                     .Query()
                     .Where(s => !s.IsDeleted && !s.IsDraft && articleIds.Contains(s.Id))
-                    .Sum(s => s.Reads)
+                    .Sum(s => s.Reads),
+
+                articleIds.LongCount()
                 );
         }
 
