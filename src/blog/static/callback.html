@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Callback</title>
+</head>
+<body>
+    callback
+    <script src="../../node_modules/oidc-client/dist/oidc-client.min.js"></script>
+
+    <script>
+        let mgr = new Oidc.UserManager({
+            userStore: new Oidc.WebStorageStateStore(),
+            loadUserInfo: true,
+            filterProtocolClaims: true
+        })
+
+        mgr.signinRedirectCallback()
+        .then(user => {
+            console.log(user)
+        })
+        .catch(console.log)
+    </script>
+</body>
+</html>

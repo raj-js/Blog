@@ -8,6 +8,22 @@
 			</span>
 			<v-text-field solo-inverted flat hide-details label="search" prepend-inner-icon="mdi-search"></v-text-field>
 			<v-spacer></v-spacer>
+
+			<v-btn @click="authenticateOidc">
+				登入
+			</v-btn>
+
+			<v-btn @click="authenticateOidcSilent">
+				静默登入
+			</v-btn>
+
+			<v-btn @click="signOutOidc">
+				注销
+			</v-btn>
+
+			<v-btn icon @click="logUser">
+				<v-icon>mdi-star</v-icon>
+			</v-btn>
 		</v-app-bar>
 
 		<v-navigation-drawer v-model="drawer" app clipped color="grey lighten-4">
@@ -47,6 +63,8 @@
 </template>
 
 <script>
+	import { mapGetters, mapActions } from 'vuex'
+
 	export default {
 		name: "App",
 		data: () => ({
@@ -58,7 +76,28 @@
 				{ icon: "mdi-tag", text: "TAG", link: "/tags" },
 				{ icon: "mdi-calendar", text: "TIMELINE", link: "/timeline" }
 			]
-		})
+		}),
+		computed: {
+			...mapGetters('oidcStore', [
+				'oidcIsAuthenticated',
+				'oidcAuthenticationIsChecked',
+				'oidcUser',
+				'oidcIdToken',
+				'oidcIdTokenExp'
+			])
+		},
+		methods: {
+			...mapActions('oidcStore', [
+				'authenticateOidc',
+				'signOutOidc',
+				'authenticateOidcSilent'
+			]),
+			logUser() {
+				console.log(this.oidcUser)
+				console.log(this.oidcIdToken)
+				console.log(this.oidcIsAuthenticated)
+			}
+		}
 	};
 </script>
 
