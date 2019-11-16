@@ -50,12 +50,11 @@
 			articleService
 				.details(this.id)
 				.then(article => {
-					this.loading = false;
                     this.article = article;
 				})
-				.catch(error => {
+				.catch(console.log)
+				.finally(() => {
 					this.loading = false;
-					console.log(error);
 				});
 		}
 	};

@@ -11,6 +11,7 @@ const Article = () => import ('@/components/Article')
 const OidcCallback = () => import ('@/pages/OidcCallback')
 const OidcPopupCallback = () => import ('@/pages/OidcPopupCallback')
 const OidcCallbackError = () => import ('@/pages/OidcCallbackError')
+const demo = () => import ('@/components/ArticleListItem')
 
 Vue.use(VueRouter)
 
@@ -60,6 +61,11 @@ const router = new VueRouter({
             path: '/timeline',
             name: 'Timeline',
             component: Timeline
+        },
+        {
+            path: '/demo',
+            name: 'demo',
+            component: demo
         },
         {
             path: '*',
