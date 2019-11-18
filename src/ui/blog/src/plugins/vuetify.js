@@ -1,12 +1,19 @@
+import '@mdi/font/css/materialdesignicons.css'
 import Vue from 'vue'
-import Vuetify from 'vuetify'
+import Vuetify, { 
+    VLayout
+} from 'vuetify/lib'
 
-Vue.use(Vuetify)
+Vue.use(Vuetify, {
+    componments: {
+        VLayout
+    }
+})
 
-const options = {
-    theme: {
-        dark: true
+const opt = {
+    icons: {
+        iconfont: 'mdi'
     }
 }
 
-export default new Vuetify(options)
+export default new Vuetify(opt)
