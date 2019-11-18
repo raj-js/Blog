@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import goTo from 'vuetify/es5/services/goto'
 
 Vue.use(VueRouter)
 
@@ -12,6 +13,17 @@ const SignIn = () => import ('@/components/auth/SignIn')
 const SignUp = () => import ('@/components/auth/SignUp')
 
 export default new VueRouter({
+    scrollBehavior: (to, from, savedPosition) => {
+        let scrollTo = 0
+    
+        if (to.hash) {
+          scrollTo = to.hash
+        } else if (savedPosition) {
+          scrollTo = savedPosition.y
+        }
+    
+        return goTo(scrollTo)
+      },
     routes: [
         {
             path: '/',
