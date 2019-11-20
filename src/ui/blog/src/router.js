@@ -7,11 +7,6 @@ Vue.use(VueRouter)
 const Layout = () => import ('@/pages/Layout')
 const Articles = () => import ('@/pages/Articles')
 const Article = () => import ('@/pages/Article')
-const Categories = () => import ('@/pages/Categories')
-
-const Auth = () => import ('@/pages/Auth')
-const SignIn = () => import ('@/components/auth/SignIn')
-const SignUp = () => import ('@/components/auth/SignUp')
 
 export default new VueRouter({
     scrollBehavior: (to, from, savedPosition) => {
@@ -41,24 +36,6 @@ export default new VueRouter({
                 {
                     path: 'article/:id',
                     component: Article
-                },
-                {
-                    path: 'categories',
-                    component: Categories
-                }
-            ]
-        },
-        {
-            path: '/auth',
-            component: Auth,
-            children: [
-                {
-                    path: 'sign-in',
-                    component: SignIn
-                },
-                {
-                    path: 'sign-up',
-                    component: SignUp
                 }
             ]
         }
