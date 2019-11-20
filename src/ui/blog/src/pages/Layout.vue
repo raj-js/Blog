@@ -1,5 +1,5 @@
 <template>
-	<v-app class="overflow-hidden">
+	<v-app>
 		<v-app-bar app clipped-left>
 			<v-toolbar-title class="ml-0 pl-4 mr-5 align-center" style="width: 300px">
 				<v-icon>Blog</v-icon>
@@ -10,11 +10,11 @@
 			<v-spacer></v-spacer>
 
 			<v-toolbar-items>
-				<v-btn text>
+				<v-btn text to="/">
 					<v-icon>HOME</v-icon>
 				</v-btn>
 
-				<v-menu open-on-hover bottom offset-y>
+				<v-menu open-on-hover bottom offset-y flat>
 					<template v-slot:activator="{on}">
 						<v-btn v-on="on" text>
 							<v-icon>CATEGORY</v-icon>

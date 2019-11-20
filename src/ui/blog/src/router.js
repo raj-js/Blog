@@ -6,6 +6,7 @@ Vue.use(VueRouter)
 
 const Layout = () => import ('@/pages/Layout')
 const Articles = () => import ('@/pages/Articles')
+const Article = () => import ('@/pages/Article')
 const Categories = () => import ('@/pages/Categories')
 
 const Auth = () => import ('@/pages/Auth')
@@ -30,8 +31,16 @@ export default new VueRouter({
             component: Layout,
             children: [
                 {
+                    path: '/',
+                    redirect: 'articles'
+                },
+                {
                     path: 'articles',
                     component: Articles
+                },
+                {
+                    path: 'article/:id',
+                    component: Article
                 },
                 {
                     path: 'categories',
