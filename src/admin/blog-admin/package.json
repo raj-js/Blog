@@ -19,6 +19,7 @@
     "@vue/cli-plugin-eslint": "^4.0.0",
     "@vue/cli-service": "^4.0.0",
     "@vue/eslint-config-standard": "^4.0.0",
+    "ant-design-vue": "^1.4.6",
     "babel-eslint": "^10.0.3",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
@@ -42,7 +43,8 @@
       ],
       "no-tabs": "off",
       "semi": 0,
-      "quotes": 0
+      "quotes": 0,
+      "space-before-function-paren": ["error", "never"]
     },
     "parserOptions": {
       "parser": "babel-eslint"

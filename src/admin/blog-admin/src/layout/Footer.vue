@@ -1,19 +1,13 @@
 <template>
-	<el-footer class="footer">
-		<h1>footer</h1>
-	</el-footer>
+	<a-layout-footer id="app-footer">
+		Ant Design ©2018 Created by Ant UED
+	</a-layout-footer>
 </template>
 
-<style lang="scss" scoped>
-.footer {
-	width: 100%;
-	margin: 0;
-	padding: 5px 10px;
-	position: fixed;
-	bottom: 0;
-	left: 0;
-	z-index: 999;
-	overflow: hidden;
-	border-top: 1px solid rgb(220, 223, 230);
+<style scoped>
+#app-footer {
+	text-align: center;
+	height: 50px;
+	min-height: 50px;
 }
 </style>

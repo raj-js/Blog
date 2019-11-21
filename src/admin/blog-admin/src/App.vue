@@ -3,9 +3,3 @@
 		<router-view />
 	</div>
 </template>
-
-<style scoped>
-body {
-	overflow: hidden;
-}
-</style>

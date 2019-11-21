@@ -2,7 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import './plugins/elementUI.js'
+import './plugins/antd'
 
 Vue.config.productionTip = false
 

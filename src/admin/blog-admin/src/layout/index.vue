@@ -1,59 +1,47 @@
 <template>
-	<el-container direction="vertical" class="app-wrapper">
-		<Header></Header>
-		<el-container class="ctt-wrapper">
-			<Aside class="nav-wrapper"></Aside>
-			<el-main class="main-wrapper">main</el-main>
-		</el-container>
-		<Footer></Footer>
-	</el-container>
+	<a-layout id="app-wrapper">
+		<Aside></Aside>
+		<a-layout>
+			<Header></Header>
+			<a-layout-content style="margin: 0 16px; padding:10px 0;">
+				<div id="app-content-wrapper">
+					<router-view />
+				</div>
+			</a-layout-content>
+			<Footer></Footer>
+		</a-layout>
+	</a-layout>
 </template>
 
 <script>
-import Header from "@/layout/Header";
-import Aside from "@/layout/Aside";
-import Footer from "@/layout/Footer";
+import Aside from "./Aside";
+import Header from "./Header";
+import Footer from "./Footer";
 
 export default {
 	components: {
-		Header,
 		Aside,
+		Header,
 		Footer
 	}
 };
 </script>
 
-<style lang="scss" scoped>
-.app-wrapper {
-	position: relative;
-	width: 100%;
-	height: 100%;
-	clear: both;
-	margin: 0;
-	padding: 0;
+<style lang="scss">
+#app-wrapper {
+	min-height: 100vh;
 }
 
-.ctt-wrapper {
-	margin-top: 60px;
-	padding: 0px;
-	height: calc(100% - 80px);
-	width: 100%;
-	overflow-y: hidden;
-	position: relative;
-	border: 1px solid red;
+#app-wrapper .logo {
+	height: 32px;
+	background: rgba(255, 255, 255, 0.2);
+	margin: 16px;
 }
 
-.nav-wrapper {
-	margin: 5px;
-	border: 1px solid black;
-}
-
-.main-wrapper {
-	width: 100%;
-	height: 1500px;
-	margin: 5px;
+#app-content-wrapper {
+	padding: 10px;
+	min-height: 100%;
 	overflow-y: scroll;
-	border: 1px solid black;
-	z-index: 999;
+	overflow-x: hidden;
 }
 </style>
