@@ -48,21 +48,25 @@
 				</a-radio-group>
 			</a-form-item>
 			<a-form-item label="发布时间">
-				<a-date-picker
-					show-time
-					format="YYYY-MM-DD HH:mm:ss"
-				/>
+				<a-date-picker show-time format="YYYY-MM-DD HH:mm:ss" />
 			</a-form-item>
-			<a-form-item label="内容"></a-form-item>
+			<a-form-item :wrapperCol="{ span: 18, offset: 6 }">
+				<RichText></RichText>
+			</a-form-item>
 		</a-form>
 	</a-card>
 </template>
 
 <script>
+import RichText from "@/components/RichText";
+
 const ADD = "ADD";
 const UPDATE = "UPDATE";
 
 export default {
+	components: {
+		RichText
+	},
 	data() {
 		return {
 			id: null,

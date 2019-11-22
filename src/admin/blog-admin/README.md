@@ -1,29 +1,9 @@
-# blog-admin
+# des
 
-## Project setup
-```
-npm install
-```
+## tinyMCE
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+langs -> https://www.tiny.cloud/get-tiny/language-packages/
 
-### Compiles and minifies for production
-```
-npm run build
-```
+## markdown
 
-### Run your tests
-```
-npm run test
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+https://github.com/hinesboy/mavonEditor/blob/master/doc/cn/no-cnd.md

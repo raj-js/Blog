@@ -3,7 +3,7 @@
 		<Aside></Aside>
 		<a-layout>
 			<Header></Header>
-			<a-layout-content style="margin: 0 16px; padding:10px 0;">
+			<a-layout-content style="margin: 0px 16px 60px 16px; padding:10px 0;">
 				<div id="app-content-wrapper">
 					<router-view />
 				</div>

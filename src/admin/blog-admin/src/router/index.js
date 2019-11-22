@@ -7,14 +7,14 @@ Vue.use(VueRouter);
 
 const routes = [
 	{
-		path: "/",
+		path: "/layout",
 		component: Layout,
 		children: [
 			{
 				path: "",
 				name: "articles",
 				meta: {
-					title: '文章管理'
+					title: "文章管理"
 				},
 				component: () => import("@/views/Articles")
 			},
@@ -22,7 +22,7 @@ const routes = [
 				path: "article/:id?",
 				name: "article",
 				meta: {
-					title: '文章详情'
+					title: "文章详情"
 				},
 				component: () => import("@/views/Article")
 			},
@@ -30,7 +30,7 @@ const routes = [
 				path: "categories",
 				name: "categories",
 				meta: {
-					title: '分类管理'
+					title: "分类管理"
 				},
 				component: () => import("@/views/Categories")
 			},
@@ -38,7 +38,7 @@ const routes = [
 				path: "tags",
 				name: "tags",
 				meta: {
-					title: '标签管理'
+					title: "标签管理"
 				},
 				component: () => import("@/views/Tags")
 			},
@@ -46,7 +46,7 @@ const routes = [
 				path: "containers",
 				name: "container",
 				meta: {
-					title: '内容库'
+					title: "内容库"
 				},
 				component: () => import("@/views/Containers")
 			},
@@ -67,6 +67,10 @@ const routes = [
 				component: () => import("@/views/Login")
 			}
 		]
+	},
+	{
+		path: "/editor",
+		component: () => import("@/components/Markdown")
 	}
 ];
 

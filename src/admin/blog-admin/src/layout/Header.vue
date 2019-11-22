@@ -1,5 +1,5 @@
 <template>
-	<a-layout-header id="app-header">
+	<a-layout-header id="app-header" fixed>
 		<a-button type="primary" @click="toggleCollapsed" class="aside-toggle">
 			<a-icon :type="collapsed ? 'menu-unfold' : 'menu-fold'"></a-icon>
 		</a-button>
