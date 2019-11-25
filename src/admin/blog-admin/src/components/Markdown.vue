@@ -1,11 +1,9 @@
 <template>
-	<div class="editorWrapper">
-		<mavon-editor
+	<mavon-editor
 			:toolbars="toolbars"
 			:ishljs="true"
 			v-model="editVal"
 		></mavon-editor>
-	</div>
 </template>
 
 <script>
@@ -71,9 +69,3 @@ export default {
 	}
 };
 </script>
-
-<style lang="scss" scoped>
-.editorWrapper {
-	height: calc(100% - 50px);
-}
-</style>

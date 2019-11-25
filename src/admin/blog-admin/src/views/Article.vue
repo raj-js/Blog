@@ -11,6 +11,9 @@
 			<a-form-item label="摘要">
 				<a-textarea :autosize="{ minRows: 2, maxRows: 6 }"></a-textarea>
 			</a-form-item>
+			<a-form-item label="内容">
+				<EditorWrapper mode="MARKDOWN"></EditorWrapper>
+			</a-form-item>
 			<a-form-item label="分类" hasFeedback>
 				<a-select>
 					<a-select-option value=".Net">.Net</a-select-option>
@@ -48,31 +51,32 @@
 				</a-radio-group>
 			</a-form-item>
 			<a-form-item label="发布时间">
-				<a-date-picker show-time format="YYYY-MM-DD HH:mm:ss" />
-			</a-form-item>
-			<a-form-item :wrapperCol="{ span: 18, offset: 6 }">
-				<RichText></RichText>
+				<a-date-picker :locale="locale.date_picker" show-time format="YYYY-MM-DD HH:mm:ss" />
 			</a-form-item>
 		</a-form>
 	</a-card>
 </template>
 
 <script>
-import RichText from "@/components/RichText";
+import EditorWrapper from "@/components/EditorWrapper";
+import LocaleDateTime from '@/shared/LocalDateTime'
 
 const ADD = "ADD";
 const UPDATE = "UPDATE";
 
 export default {
 	components: {
-		RichText
+		EditorWrapper
 	},
 	data() {
 		return {
+			locale: {
+				date_picker: LocaleDateTime
+			},
 			id: null,
 			formItemLayout: {
-				labelCol: { span: 6 },
-				wrapperCol: { span: 14 }
+				labelCol: { span: 4 },
+				wrapperCol: { span: 18 }
 			}
 		};
 	},

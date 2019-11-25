@@ -34,7 +34,7 @@ export default {
 				"undo redo | formatselect | " +
 				" bold italic backcolor | alignleft aligncenter " +
 				" alignright alignjustify | bullist numlist outdent indent |" +
-				" removeformat | rotateleft rotateright | flipv fliph | editimage imageoptions | fullscreen"
+				" removeformat | rotateleft rotateright | editimage imageoptions | fullscreen"
 		}
 	},
 	data() {
@@ -50,19 +50,12 @@ export default {
 				branding: false,
 				menubar: false,
 				plugins: this.plugins,
-				toolbar: this.toolbar
+				toolbar: this.toolbars
 			}
 		};
 	},
 	mounted() {
-		console.log(this.plugins);
 		tinymce.init({});
-
-		this.opts = {
-			...this.opts,
-			plugins: this.plugins,
-			toolbar: this.toolbars
-		};
 	}
 };
 </script>

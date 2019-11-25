@@ -7,7 +7,22 @@ Vue.use(VueRouter);
 
 const routes = [
 	{
-		path: "/layout",
+		path: "/auth",
+		component: () => import("@/layout/Auth"),
+		children: [
+			{
+				path: "/login",
+				name: "login",
+				component: () => import("@/views/Login")
+			}
+		]
+	},
+	{
+		path: "/editor",
+		component: () => import('@/components/EditorWrapper')
+	},
+	{
+		path: "/",
 		component: Layout,
 		children: [
 			{
@@ -56,21 +71,6 @@ const routes = [
 				component: () => import("@/views/Articles")
 			}
 		]
-	},
-	{
-		path: "/auth",
-		component: () => import("@/layout/Auth"),
-		children: [
-			{
-				path: "/login",
-				name: "login",
-				component: () => import("@/views/Login")
-			}
-		]
-	},
-	{
-		path: "/editor",
-		component: () => import("@/components/Markdown")
 	}
 ];
 
