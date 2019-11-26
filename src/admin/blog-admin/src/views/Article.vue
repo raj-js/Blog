@@ -67,13 +67,9 @@
 					format="YYYY-MM-DD HH:mm:ss"
 				/>
 			</a-form-item>
-			<a-form-item
-				label=""
-				:labelCol="{ span: 4 }"
-				:wrapperCol="{ span: 4, offset: 4 }"
-			>
+			<a-form-item :wrapperCol="{ span: 16, offset: 4 }">
 				<a-button type="primary" htmlType="submit">
-					提交
+					保存
 				</a-button>
 			</a-form-item>
 		</a-form>

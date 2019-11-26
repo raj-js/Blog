@@ -1,7 +1,109 @@
 <template>
-	<div>
-		<a-row>
-			<a-col>标签管理</a-col>
+	<a-card>
+		<template>
+			<h2>标签管理</h2>
+		</template>
+
+		<a-row :gutter="8">
+			<a-col span="12">
+				<a-list>
+					<a-list-item
+						v-for="item in tags"
+						:key="item.id"
+						@click="editTag(item)"
+					>
+						<a-list-item-meta>
+							<template v-slot:avatar>
+								<a-avatar
+									shape="square"
+									size="large"
+									:style="{ 'background-color': item.color }"
+								></a-avatar>
+							</template>
+							<template v-slot:title>
+								{{ item.name }}
+							</template>
+						</a-list-item-meta>
+
+						<template v-slot:actions>
+							<a-tag color="green" v-if="item.enable">启用</a-tag>
+							<a-tag color="red" v-else>禁用</a-tag>
+						</template>
+					</a-list-item>
+				</a-list>
+			</a-col>
+			<a-col span="12">
+				<a-card>
+					<a-form
+						v-bind="{
+							labelCol: { span: 4 },
+							wrapperCol: { span: 16 }
+						}"
+					>
+						<a-form-item label="编号">
+							<span class="ant-form-text" v-text="tag.id"></span>
+						</a-form-item>
+						<a-form-item label="名称">
+							<a-input v-model="tag.name"></a-input>
+						</a-form-item>
+						<a-form-item label="颜色">
+							<a-input
+								v-model="tag.color"
+								type="color"
+								style="width:100px;"
+							></a-input>
+						</a-form-item>
+						<a-form-item label="启用">
+							<a-switch defaultChecked :checked="tag.enable" />
+						</a-form-item>
+						<a-form-item :wrapperCol="{ span: 16, offset: 4 }">
+							<a-row>
+								<a-button type="primary" htmlType="submit">
+									保存
+								</a-button>
+								&nbsp;
+								<a-button type="default" htmlType="reset">
+									新增
+								</a-button>
+							</a-row>
+						</a-form-item>
+					</a-form>
+				</a-card>
+			</a-col>
 		</a-row>
-	</div>
+	</a-card>
 </template>
+
+<script>
+const colors = ["#f56a00", "#7265e6", "#ffbf00", "#00a2ae"];
+
+export default {
+	data() {
+		return {
+			tags: [],
+			tag: {}
+		};
+	},
+	created() {
+		for (let i = 0; i < 5; i++) {
+			this.tags.push({
+				id: i,
+				name: `Tag ${i}`,
+				color: colors[Math.floor(Math.random() * colors.length)],
+				enable: i % 2 === 0
+			});
+		}
+	},
+	methods: {
+		editTag(tag) {
+			this.tag = { ...tag };
+		}
+	}
+};
+</script>
+
+<style scoped>
+.ant-list-item {
+	cursor: pointer;
+}
+</style>

@@ -1,40 +1,38 @@
 <template>
-	<div>
-		<a-card>
-			<template v-slot:title>
-				<h2>文章管理</h2>
+	<a-card>
+		<template v-slot:title>
+			<h2>文章管理</h2>
+		</template>
+
+		<a-row class="toolbar">
+			<a-col>
+				<a-button type="primary">
+					<router-link :to="`/article`">
+						<a-icon type="plus"></a-icon> 新增
+					</router-link>
+				</a-button>
+			</a-col>
+		</a-row>
+
+		<a-table
+			:columns="cols"
+			:locale="local"
+			:dataSource="dataSource"
+			:rowKey="v => v.id"
+		>
+			<template v-slot:row_title="title">
+				{{ title }}
 			</template>
 
-			<a-row class="toolbar">
-				<a-col>
-					<a-button type="primary">
-						<router-link :to="`/article`">
-							<a-icon type="plus"></a-icon> 新增
-						</router-link>
-					</a-button>
-				</a-col>
-			</a-row>
+			<template v-slot:row_tags="tags">
+				<a-tag v-for="(v, i) in tags" :key="i">{{ v }}</a-tag>
+			</template>
 
-			<a-table
-				:columns="cols"
-				:locale="local"
-				:dataSource="dataSource"
-				:rowKey="v => v.id"
-			>
-				<template v-slot:row_title="title">
-					{{ title }}
-				</template>
-
-				<template v-slot:row_tags="tags">
-					<a-tag v-for="(v, i) in tags" :key="i">{{ v }}</a-tag>
-				</template>
-
-				<template v-slot:row_ops="id">
-					<router-link :to="`/article/${id}`">详情</router-link>
-				</template>
-			</a-table>
-		</a-card>
-	</div>
+			<template v-slot:row_ops="id">
+				<router-link :to="`/article/${id}`">详情</router-link>
+			</template>
+		</a-table>
+	</a-card>
 </template>
 
 <script>
