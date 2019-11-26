@@ -35,6 +35,10 @@ export default {
 				" bold italic backcolor | alignleft aligncenter " +
 				" alignright alignjustify | bullist numlist outdent indent |" +
 				" removeformat | rotateleft rotateright | editimage imageoptions | fullscreen"
+		},
+		height: {
+			type: Number,
+			default: 300
 		}
 	},
 	data() {
@@ -46,11 +50,12 @@ export default {
 				skin_url: `/js/libs/tinymce/skins/ui/oxide`,
 				content_css:
 					"/js/libs/tinymce/skins/content/default/content.css",
-				height: 500,
+				height: this.height,
 				branding: false,
 				menubar: false,
 				plugins: this.plugins,
-				toolbar: this.toolbars
+				toolbar: this.toolbars,
+				value: '<p>开始编辑...</p>'
 			}
 		};
 	},

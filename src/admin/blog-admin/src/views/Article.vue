@@ -11,8 +11,18 @@
 			<a-form-item label="摘要">
 				<a-textarea :autosize="{ minRows: 2, maxRows: 6 }"></a-textarea>
 			</a-form-item>
+			<a-form-item label="编辑器" hasFeedback>
+				<a-radio-group name="status" v-model="editorType">
+					<a-radio-button :value="'MARKDOWN'">
+						Markdown
+					</a-radio-button>
+					<a-radio-button :value="'RICHTEXT'">
+						富文本
+					</a-radio-button>
+				</a-radio-group>
+			</a-form-item>
 			<a-form-item label="内容">
-				<EditorWrapper mode="MARKDOWN"></EditorWrapper>
+				<EditorWrapper :mode="editorType"></EditorWrapper>
 			</a-form-item>
 			<a-form-item label="分类" hasFeedback>
 				<a-select>
@@ -38,20 +48,33 @@
 				<a-input-number :min="0" :defaultValue="0" />
 			</a-form-item>
 			<a-form-item label="状态" hasFeedback>
-				<a-radio-group>
-					<a-radio-button value="0">
+				<a-radio-group name="status" :defaultValue="0">
+					<a-radio :value="0">
 						草稿
-					</a-radio-button>
-					<a-radio-button value="1">
+					</a-radio>
+					<a-radio :value="1">
 						发布
-					</a-radio-button>
-					<a-radio-button value="2">
+					</a-radio>
+					<a-radio v-if="IsUpdate" :value="2">
 						删除
-					</a-radio-button>
+					</a-radio>
 				</a-radio-group>
 			</a-form-item>
-			<a-form-item label="发布时间">
-				<a-date-picker :locale="locale.date_picker" show-time format="YYYY-MM-DD HH:mm:ss" />
+			<a-form-item v-if="IsUpdate" label="发布时间">
+				<a-date-picker
+					:locale="locale.date_picker"
+					show-time
+					format="YYYY-MM-DD HH:mm:ss"
+				/>
+			</a-form-item>
+			<a-form-item
+				label=""
+				:labelCol="{ span: 4 }"
+				:wrapperCol="{ span: 4, offset: 4 }"
+			>
+				<a-button type="primary" htmlType="submit">
+					提交
+				</a-button>
 			</a-form-item>
 		</a-form>
 	</a-card>
@@ -59,7 +82,7 @@
 
 <script>
 import EditorWrapper from "@/components/EditorWrapper";
-import LocaleDateTime from '@/shared/LocalDateTime'
+import LocaleDateTime from "@/shared/LocalDateTime";
 
 const ADD = "ADD";
 const UPDATE = "UPDATE";
@@ -73,16 +96,23 @@ export default {
 			locale: {
 				date_picker: LocaleDateTime
 			},
-			id: null,
 			formItemLayout: {
 				labelCol: { span: 4 },
 				wrapperCol: { span: 18 }
-			}
+			},
+			id: null,
+			editorType: "MARKDOWN"
 		};
 	},
 	computed: {
 		mode() {
 			return this.id ? UPDATE : ADD;
+		},
+		IsAdd() {
+			return this.mode === ADD;
+		},
+		IsUpdate() {
+			return this.mode === UPDATE;
 		}
 	},
 	created() {
