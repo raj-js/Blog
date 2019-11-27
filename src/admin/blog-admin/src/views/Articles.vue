@@ -36,6 +36,10 @@
 </template>
 
 <script>
+import articleService from "@/services/ArticleService";
+
+articleService.getArticles();
+
 export default {
 	data() {
 		return {

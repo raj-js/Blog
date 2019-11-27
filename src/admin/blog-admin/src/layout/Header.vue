@@ -12,7 +12,7 @@
 			</a>
 			<template v-slot:overlay>
 				<a-menu>
-					<a-menu-item key="1">
+					<a-menu-item key="1" @click="openProfile">
 						<a-icon type="user" /> 个人信息
 					</a-menu-item>
 					<a-menu-item key="2">
@@ -24,20 +24,34 @@
 				</a-menu>
 			</template>
 		</a-dropdown>
+		<Profile :visible="profileVisible" @close="closeProfile"></Profile>
 	</a-layout-header>
 </template>
 
 <script>
 import { mapState, mapMutations } from "vuex";
+import Profile from "@/components/Profile";
 
 export default {
+	data() {
+		return {
+			profileVisible: false
+		};
+	},
+	components: {
+		Profile
+	},
 	computed: {
-		...mapState("layout", ['collapsed'])
+		...mapState("layout", ["collapsed"])
 	},
 	methods: {
-		...mapMutations('layout', [
-			'toggleCollapsed'
-		])
+		...mapMutations("layout", ["toggleCollapsed"]),
+		openProfile() {
+			this.profileVisible = true;
+		},
+		closeProfile() {
+			this.profileVisible = false;
+		}
 	}
 };
 </script>
