@@ -44,14 +44,9 @@ namespace Blog.Core.Models
         public bool IsTop { get; set; }
 
         /// <summary>
-        /// 是否为草稿
+        /// 状态
         /// </summary>
-        public bool IsDraft { get; set; }
-
-        /// <summary>
-        /// 是否删除
-        /// </summary>
-        public bool IsDeleted { get; set; }
+        public ArticleStatus Status { get; set; }
 
         /// <summary>
         /// 创建时间
