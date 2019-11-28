@@ -39,6 +39,7 @@
 							labelCol: { span: 4 },
 							wrapperCol: { span: 16 }
 						}"
+						:form="form"
 					>
 						<a-form-item label="编号">
 							<span class="ant-form-text" v-text="tag.id"></span>
@@ -54,16 +55,16 @@
 							></a-input>
 						</a-form-item>
 						<a-form-item label="启用">
-							<a-switch defaultChecked :checked="tag.enable" />
+							<a-switch defaultChecked v-model="tag.enable" />
 						</a-form-item>
 						<a-form-item :wrapperCol="{ span: 16, offset: 4 }">
 							<a-row>
-								<a-button type="primary" htmlType="submit">
+								<a-button type="primary" @click="save">
 									保存
 								</a-button>
 								&nbsp;
-								<a-button type="default" htmlType="reset">
-									新增
+								<a-button type="default" @click="reset">
+									重置
 								</a-button>
 							</a-row>
 						</a-form-item>
@@ -81,7 +82,8 @@ export default {
 	data() {
 		return {
 			tags: [],
-			tag: {}
+			tag: {},
+			form: this.$form.createForm(this, { name: "tag" })
 		};
 	},
 	created() {
@@ -97,6 +99,10 @@ export default {
 	methods: {
 		editTag(tag) {
 			this.tag = { ...tag };
+		},
+		save() {},
+		reset() {
+			this.tag = {};
 		}
 	}
 };

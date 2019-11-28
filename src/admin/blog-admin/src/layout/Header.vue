@@ -12,45 +12,66 @@
 			</a>
 			<template v-slot:overlay>
 				<a-menu>
-					<a-menu-item key="1" @click="openProfile">
+					<a-menu-item key="1" @click="openProfileModal">
 						<a-icon type="user" /> 个人信息
 					</a-menu-item>
-					<a-menu-item key="2">
+					<a-menu-item key="2" @click="openPasswordModal">
 						<a-icon type="key" /> 修改密码
 					</a-menu-item>
-					<a-menu-item key="3">
+					<a-menu-item key="3" @click="logout">
 						<a-icon type="logout" /> 注销
 					</a-menu-item>
 				</a-menu>
 			</template>
 		</a-dropdown>
-		<Profile :visible="profileVisible" @close="closeProfile"></Profile>
+		<ProfileModal ref="profile"></ProfileModal>
+		<ResetPasswordModal ref="resetPassword"></ResetPasswordModal>
 	</a-layout-header>
 </template>
 
 <script>
 import { mapState, mapMutations } from "vuex";
-import Profile from "@/components/Profile";
+import ProfileModal from "@/components/ProfileModal";
+import ResetPasswordModal from "@/components/ResetPasswordModal";
 
 export default {
 	data() {
 		return {
-			profileVisible: false
+			profileModal: false,
+			passwordModal: false
 		};
 	},
 	components: {
-		Profile
+		ProfileModal,
+		ResetPasswordModal
 	},
 	computed: {
 		...mapState("layout", ["collapsed"])
 	},
 	methods: {
 		...mapMutations("layout", ["toggleCollapsed"]),
-		openProfile() {
-			this.profileVisible = true;
+		openProfileModal() {
+			this.$refs.profile.open();
 		},
-		closeProfile() {
-			this.profileVisible = false;
+		openPasswordModal() {
+			this.$refs.resetPassword.open();
+		},
+		logout() {
+			const _this = this;
+
+			this.$confirm({
+				title: "注销",
+				content: "确定注销当前账号吗？",
+				okText: "确定",
+				okType: "primary",
+				cancelText: "取消",
+				onOk() {
+					_this.$router.push("/auth");
+				},
+				onCancel() {
+					console.log("logout cancel");
+				}
+			});
 		}
 	}
 };

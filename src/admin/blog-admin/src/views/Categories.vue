@@ -34,7 +34,7 @@
 			</a-col>
 			<a-col :span="12">
 				<a-card>
-					<a-form v-bind="formLayout">
+					<a-form v-bind="formLayout" :form="form">
 						<a-form-item label="编号">
 							<span
 								class="ant-form-text"
@@ -46,10 +46,10 @@
 						</a-form-item>
 						<a-form-item label="封面">
 							<a-upload
+								:showUploadList="false"
 								name="covor"
 								listType="picture-card"
 								class="avatar-uploader"
-								:showUploadList="false"
 								action="#"
 							>
 								<img
@@ -69,24 +69,24 @@
 						</a-form-item>
 						<a-form-item label="描述">
 							<a-textarea
-								:value="category.description"
+								v-model="category.description"
 								:autosize="{ minRows: 2, maxRows: 3 }"
 							></a-textarea>
 						</a-form-item>
 						<a-form-item label="启用">
 							<a-switch
 								defaultChecked
-								:checked="category.enable"
+								v-model="category.enable"
 							/>
 						</a-form-item>
 						<a-form-item :wrapperCol="{ span: 16, offset: 4 }">
 							<a-row>
-								<a-button type="primary" htmlType="submit">
+								<a-button type="primary" @click="save">
 									保存
 								</a-button>
 								&nbsp;
-								<a-button type="default" htmlType="reset">
-									新增
+								<a-button type="default" @click="reset">
+									重置
 								</a-button>
 							</a-row>
 						</a-form-item>
@@ -110,6 +110,9 @@ export default {
 			category: {}
 		};
 	},
+	beforeCreate() {
+		this.form = this.$form.createForm(this, { name: "category" });
+	},
 	created() {
 		for (let i = 0; i < 5; i++) {
 			this.categories.push({
@@ -126,6 +129,10 @@ export default {
 	methods: {
 		editCategory(category) {
 			this.category = { ...category };
+		},
+		save() {},
+		reset() {
+			this.category = {}
 		}
 	}
 };

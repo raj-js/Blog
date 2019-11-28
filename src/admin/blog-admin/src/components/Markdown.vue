@@ -1,5 +1,6 @@
 <template>
 	<mavon-editor
+			class="markdown-editor"
 			:toolbars="toolbars"
 			:ishljs="true"
 			v-model="editVal"
@@ -69,3 +70,9 @@ export default {
 	}
 };
 </script>
+
+<style scoped>
+.markdown-editor {
+	z-index: 1 !important;
+}
+</style>

@@ -11,15 +11,20 @@ const routes = [
 		component: () => import("@/layout/Auth"),
 		children: [
 			{
-				path: "/login",
+				path: "",
 				name: "login",
 				component: () => import("@/views/Login")
+			},
+			{
+				path: "forget",
+				name: "forget",
+				component: () => import("@/views/Forget")
 			}
 		]
 	},
 	{
 		path: "/editor",
-		component: () => import('@/components/EditorWrapper')
+		component: () => import("@/components/EditorWrapper")
 	},
 	{
 		path: "/",
