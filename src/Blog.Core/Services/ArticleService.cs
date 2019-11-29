@@ -64,9 +64,10 @@ namespace Blog.Core.Services
             if (entity == null)
                 return Failure("404", $"编号为`{id}`的文章不存在");
 
-            if (entity.IsDraft)
+            if (entity.Status.HasFlag(ArticleStatus.Draft))
             {
-                entity.IsDraft = true;
+                entity.Status ^= ArticleStatus.Draft;
+                entity.Status |= ArticleStatus.Published;
                 entity.PublishTime = DateTime.Now;
 
                 await _store.UpdateAsync(entity);
@@ -148,7 +149,7 @@ namespace Blog.Core.Services
             if (entity == null)
                 return Failure("404", $"编号为`{id}`的文章不存在");
 
-            entity.IsDeleted = true;
+            entity.Status |= ArticleStatus.Draft;
             await _store.UpdateAsync(entity);
             await _store.SaveAsync();
 
@@ -161,13 +162,13 @@ namespace Blog.Core.Services
             if (entity == null)
                 return Failure("404", $"编号为`{id}`的文章不存在");
 
-            if (entity.IsDeleted)
+            if (entity.Status.HasFlag(ArticleStatus.Deleted))
                 return Failure("500", $"编号为`{id}`的文章已删除");
 
-            if (entity.IsDraft)
+            if (entity.Status.HasFlag(ArticleStatus.Draft))
                 return Failure("500", $"编号为`{id}`的文章未发布");
 
-            entity.IsTop = true;
+            entity.Status |= ArticleStatus.Top;
             await _store.UpdateAsync(entity);
             await _store.SaveAsync();
 
@@ -199,15 +200,22 @@ namespace Blog.Core.Services
         {
             var entity = _mapper.Map<Article>(article);
 
-            entity.Reads = 0;
+            entity.Views = 0;
             entity.Likes = 0;
-            entity.IsDraft = asDraft;
-            entity.IsDeleted = false;
+
+            if (asDraft)
+            {
+                entity.Status |= ArticleStatus.Draft;
+                entity.PublishTime = null;
+            }
+            else
+            {
+                entity.Status |= ArticleStatus.Published;
+                entity.PublishTime = DateTime.Now;
+            }
             entity.Creation = DateTime.Now;
-            entity.PublishTime = asDraft ? null : new DateTime?(DateTime.Now);
 
             var articleId = await _store.CreateAndGetIdAsync(entity);
-
             var articleCategory = new ArticleCategory
             {
                 ArticleId = articleId,
@@ -221,7 +229,6 @@ namespace Blog.Core.Services
                 TagId = tagId
             });
             await _articleTagStore.CreateManyAsync(articleTags);
-
             await _store.SaveAsync();
 
             return Success(articleId);
@@ -262,7 +269,8 @@ namespace Blog.Core.Services
 
         private async Task IncrementReads(Article entity)
         {
-            if (entity.IsDraft || entity.IsDeleted) return;
+            if (entity.Status.HasFlag(ArticleStatus.Draft) ||
+                entity.Status.HasFlag(ArticleStatus.Deleted)) return;
 
             var clientIp = _httpContextAccessor.GetClientIp();
 
@@ -276,10 +284,9 @@ namespace Blog.Core.Services
 
             if (!flag)
             {
-                entity.Reads++;
+                entity.Views++;
 
                 await _store.UpdateAsync(entity);
-
                 await _articleVisitHistoryStore.CreateAsync(
                     new ArticleVisitHistory
                     {
@@ -293,3 +300,4 @@ namespace Blog.Core.Services
         #endregion
     }
 }
+

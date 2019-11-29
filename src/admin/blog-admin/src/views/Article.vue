@@ -6,13 +6,13 @@
 
 		<a-form layout="horizontal" v-bind="formItemLayout">
 			<a-form-item label="标题">
-				<a-input></a-input>
+				<a-input v-model="article.title"></a-input>
 			</a-form-item>
 			<a-form-item label="摘要">
 				<a-textarea :autosize="{ minRows: 2, maxRows: 6 }"></a-textarea>
 			</a-form-item>
 			<a-form-item label="编辑器" hasFeedback>
-				<a-radio-group name="status" v-model="editorType">
+				<a-radio-group name="status" v-model="article.editorType" defaultValue="MARKDOWN">
 					<a-radio-button :value="'MARKDOWN'">
 						Markdown
 					</a-radio-button>
@@ -22,7 +22,7 @@
 				</a-radio-group>
 			</a-form-item>
 			<a-form-item label="内容">
-				<EditorWrapper :mode="editorType"></EditorWrapper>
+				<EditorWrapper :mode="article.editorType"></EditorWrapper>
 			</a-form-item>
 			<a-form-item label="分类" hasFeedback>
 				<a-select>
@@ -47,7 +47,7 @@
 			<a-form-item label="点赞量">
 				<a-input-number :min="0" :defaultValue="0" />
 			</a-form-item>
-			<a-form-item label="状态" hasFeedback>
+			<a-form-item label="状态">
 				<a-radio-group name="status" :defaultValue="0">
 					<a-radio :value="0">
 						草稿
@@ -59,6 +59,10 @@
 						删除
 					</a-radio>
 				</a-radio-group>
+			</a-form-item>
+			<a-form-item label="置顶">
+				<a-switch>
+				</a-switch>
 			</a-form-item>
 			<a-form-item v-if="IsUpdate" label="发布时间">
 				<a-date-picker
@@ -96,13 +100,13 @@ export default {
 				labelCol: { span: 4 },
 				wrapperCol: { span: 18 }
 			},
-			id: null,
-			editorType: "MARKDOWN"
+			editorType: "MARKDOWN",
+			article: {}
 		};
 	},
 	computed: {
 		mode() {
-			return this.id ? UPDATE : ADD;
+			return this.article.id ? UPDATE : ADD;
 		},
 		IsAdd() {
 			return this.mode === ADD;

@@ -1,5 +1,5 @@
 <template>
-	<Editor :id="selector" :init="opts"></Editor>
+	<Editor :id="selector" :init="opts" initialValue="开始编辑..."></Editor>
 </template>
 
 <script>

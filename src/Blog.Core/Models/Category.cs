@@ -20,7 +20,7 @@ namespace Blog.Core.Models
         /// <summary>
         /// 封面
         /// </summary>
-        public byte[] Cover { get; set; }
+        public string Cover { get; set; }
 
         /// <summary>
         /// 描述

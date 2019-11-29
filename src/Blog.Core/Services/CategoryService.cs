@@ -25,11 +25,11 @@ namespace Blog.Core.Services
             _articleStore = articleStore;
         }
 
-        public async Task<OpResponse<byte[]>> GetCover(int id)
+        public async Task<OpResponse<string>> GetCover(int id)
         {
             var category = await Store.FindAsync(id);
             if (category == null)
-                return Failure<byte[]>("404", "分类不存在");
+                return Failure<string>("404", "分类不存在");
 
             return Success(category.Cover);
         }
@@ -66,14 +66,17 @@ namespace Blog.Core.Services
                  .Select(s => s.ArticleId)
                  .ToArray();
 
-             return (
-                _articleStore
-                    .Query()
-                    .Where(s => !s.IsDeleted && !s.IsDraft && articleIds.Contains(s.Id))
-                    .Sum(s => s.Reads),
+            return (
+               _articleStore
+                   .Query()
+                   .Where(s =>
+                   !s.Status.HasFlag(ArticleStatus.Deleted) &&
+                   !s.Status.HasFlag(ArticleStatus.Deleted) &&
+                   articleIds.Contains(s.Id))
+                   .Sum(s => s.Views),
 
-                articleIds.LongCount()
-                );
+               articleIds.LongCount()
+              );
         }
 
         #endregion

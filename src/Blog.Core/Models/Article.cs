@@ -24,6 +24,11 @@ namespace Blog.Core.Models
         public string Digest { get; set; }
 
         /// <summary>
+        /// 编辑器类型
+        /// </summary>
+        public EditorType EditorType { get; set; }
+
+        /// <summary>
         /// 内容
         /// </summary>
         public string Content { get; set; }
@@ -31,17 +36,12 @@ namespace Blog.Core.Models
         /// <summary>
         /// 阅读数
         /// </summary>
-        public int Reads { get; set; }
+        public int Views { get; set; }
 
         /// <summary>
         /// 点赞数
         /// </summary>
         public int Likes { get; set; }
-
-        /// <summary>
-        /// 是否置顶
-        /// </summary>
-        public bool IsTop { get; set; }
 
         /// <summary>
         /// 状态

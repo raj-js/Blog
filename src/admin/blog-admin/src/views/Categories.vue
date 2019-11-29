@@ -11,11 +11,14 @@
 						<a-list-item
 							v-for="item in categories"
 							:key="item.id"
-							@click="editCategory(item)"
+							@click="select(item)"
 						>
 							<a-list-item-meta :description="item.description">
 								<template v-slot:avatar>
-									<a-avatar :src="item.covor" />
+									<a-avatar
+										shape="square"
+										:src="item.cover"
+									/>
 								</template>
 								<template v-slot:title>
 									{{ item.name }}
@@ -47,16 +50,18 @@
 						<a-form-item label="封面">
 							<a-upload
 								:showUploadList="false"
-								name="covor"
+								name="cover"
 								listType="picture-card"
 								class="avatar-uploader"
-								action="#"
+								action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+								accept=".jpg,.jpeg,.png"
+								@change="handleChange"
 							>
 								<img
 									height="102"
 									width="102"
-									v-if="category.covor"
-									:src="category.covor"
+									v-if="category.cover"
+									:src="category.cover"
 									alt="封面"
 								/>
 								<div v-else>
@@ -98,6 +103,10 @@
 </template>
 
 <script>
+import { simplifyReject } from "../services/Simplify";
+import { getBase64 } from "../shared/UploadUtil";
+import categoryService from "../services/CategoryService";
+
 export default {
 	data() {
 		return {
@@ -105,6 +114,7 @@ export default {
 				labelCol: { span: 4 },
 				wrapperCol: { span: 16 }
 			},
+			accept: ["image/jpg", "image/jpeg", "image/png"],
 			loading: false,
 			categories: [],
 			category: {}
@@ -113,26 +123,67 @@ export default {
 	beforeCreate() {
 		this.form = this.$form.createForm(this, { name: "category" });
 	},
-	created() {
-		for (let i = 0; i < 5; i++) {
-			this.categories.push({
-				id: i,
-				name: "Asp.Net Core",
-				covor:
-					"https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-				description:
-					"Ant Design, a design language for background applications, is refined by Ant UED Team",
-				enable: i % 2 === 0
-			});
-		}
+	mounted() {
+		this.load();
 	},
 	methods: {
-		editCategory(category) {
+		load() {
+			const _this = this;
+
+			categoryService
+				.getAllCategories()
+				.then(resp => {
+					_this.categories = resp.data;
+				})
+				.catch(_this.reject);
+		},
+		select(category) {
 			this.category = { ...category };
 		},
-		save() {},
+		save() {
+			const _this = this;
+			const _form = this.form;
+			_form.validateFields((error, values) => {
+				if (error) {
+					return;
+				}
+				categoryService
+					.addOrUpdateCategory(_this.category)
+					.then(resp => {
+						_this.category = resp.data;
+						this.load();
+						_this.$message.success("操作成功！");
+					})
+					.catch(_this.reject);
+
+				_form.resetFields();
+			});
+		},
 		reset() {
-			this.category = {}
+			this.category = {};
+		},
+		reject(error) {
+			const _this = this;
+			simplifyReject(
+				error,
+				() => _this.$message.error(`请求失败，状态码：${error}`),
+				() => _this.$message.error(`请求失败，错误信息：${error}`),
+				() => _this.$message.error(`请求失败，未知错误：${error}`)
+			);
+		},
+		handleChange(info) {
+			if (info.file.status === "uploading") {
+				this.loading = true;
+			} else if (info.file.status === "done") {
+				// Get this url from response in real world.
+				getBase64(info.file.originFileObj, cover => {
+					this.category = {
+						...this.category,
+						cover
+					};
+					this.loading = false;
+				});
+			}
 		}
 	}
 };

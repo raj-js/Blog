@@ -18,6 +18,11 @@ namespace Blog.Core.DTOs
         public string Name { get; set; }
 
         /// <summary>
+        /// 封面
+        /// </summary>
+        public string Cover { get; set; }
+
+        /// <summary>
         /// 描述
         /// </summary>
         public string Description { get; set; }
@@ -51,7 +56,7 @@ namespace Blog.Core.DTOs
         /// <summary>
         /// 封面
         /// </summary>
-        public IFormFile Cover { get; set; }
+        public string Cover { get; set; }
 
         /// <summary>
         /// 描述
@@ -87,7 +92,7 @@ namespace Blog.Core.DTOs
         /// <summary>
         /// 封面
         /// </summary>
-        public IFormFile Cover { get; set; }
+        public string Cover { get; set; }
 
         /// <summary>
         /// 是否启用

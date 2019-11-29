@@ -10,7 +10,7 @@
 					<a-list-item
 						v-for="item in tags"
 						:key="item.id"
-						@click="editTag(item)"
+						@click="select(item)"
 					>
 						<a-list-item-meta>
 							<template v-slot:avatar>
@@ -76,7 +76,8 @@
 </template>
 
 <script>
-const colors = ["#f56a00", "#7265e6", "#ffbf00", "#00a2ae"];
+import { simplifyReject } from "../services/Simplify";
+import tagService from "../services/TagService";
 
 export default {
 	data() {
@@ -86,23 +87,56 @@ export default {
 			form: this.$form.createForm(this, { name: "tag" })
 		};
 	},
-	created() {
-		for (let i = 0; i < 5; i++) {
-			this.tags.push({
-				id: i,
-				name: `Tag ${i}`,
-				color: colors[Math.floor(Math.random() * colors.length)],
-				enable: i % 2 === 0
-			});
-		}
+	mounted() {
+		this.load();
 	},
 	methods: {
-		editTag(tag) {
+		load() {
+			const _this = this;
+
+			tagService
+				.getAllTags()
+				.then(resp => {
+					this.tags = resp.data;
+				})
+				.catch(_this.reject);
+		},
+		select(tag) {
 			this.tag = { ...tag };
 		},
-		save() {},
+		save() {
+			console.log(this.tag);
+			const _this = this;
+			const _form = this.form;
+
+			_form.validateFields((error, values) => {
+				if (error) {
+					return;
+				}
+
+				tagService
+					.addOrUpdateTag(_this.tag)
+					.then(resp => {
+						_this.tag = resp.data;
+						_this.load();
+						_this.$message.success("操作成功");
+					})
+					.catch(_this.reject);
+
+				_form.resetFields();
+			});
+		},
 		reset() {
 			this.tag = {};
+		},
+		reject(error) {
+			const _this = this;
+			simplifyReject(
+				error,
+				() => _this.$message.error(`请求失败，状态码：${error}`),
+				() => _this.$message.error(`请求失败，错误信息：${error}`),
+				() => _this.$message.error(`请求失败，未知错误：${error}`)
+			);
 		}
 	}
 };

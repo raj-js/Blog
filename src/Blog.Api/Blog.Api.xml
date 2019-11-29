@@ -83,20 +83,6 @@
             </summary>
             <param name="categoryService"></param>
         </member>
-        <member name="M:Blog.Api.Controllers.CategoryController.Post(Blog.Core.DTOs.CategoryCreateDTO)">
-            <summary>
-            新增
-            </summary>
-            <param name="dto"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Blog.Api.Controllers.CategoryController.GetCover(System.Int32)">
-            <summary>
-            获取分类封面
-            </summary>
-            <param name="id"></param>
-            <returns></returns>
-        </member>
         <member name="T:Blog.Api.Controllers.CommentController">
             <summary>
             评论接口

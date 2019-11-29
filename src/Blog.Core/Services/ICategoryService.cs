@@ -13,6 +13,6 @@ namespace Blog.Core.Services
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        Task<OpResponse<byte[]>> GetCover(int id);
+        Task<OpResponse<string>> GetCover(int id);
     }
 }

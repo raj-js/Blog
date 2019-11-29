@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Blog.Core.Models;
+using System;
 
 namespace Blog.Core.DTOs
 {
@@ -40,7 +41,7 @@ namespace Blog.Core.DTOs
         /// <summary>
         /// 阅读数
         /// </summary>
-        public int Reads { get; set; }
+        public int Views { get; set; }
 
         /// <summary>
         /// 点赞数
@@ -87,6 +88,11 @@ namespace Blog.Core.DTOs
         /// 摘要
         /// </summary>
         public string Digest { get; set; }
+
+        /// <summary>
+        /// 编辑器类型
+        /// </summary>
+        public EditorType EditorType { get; set; }
 
         /// <summary>
         /// 内容
