@@ -11,8 +11,8 @@
 			<a-form-item label="摘要">
 				<a-textarea :autosize="{ minRows: 2, maxRows: 6 }"></a-textarea>
 			</a-form-item>
-			<a-form-item label="编辑器" hasFeedback>
-				<a-radio-group name="status" v-model="article.editorType" defaultValue="MARKDOWN">
+			<a-form-item label="编辑器">
+				<a-radio-group name="status" v-model="article.editorType">
 					<a-radio-button :value="'MARKDOWN'">
 						Markdown
 					</a-radio-button>
@@ -24,21 +24,24 @@
 			<a-form-item label="内容">
 				<EditorWrapper :mode="article.editorType"></EditorWrapper>
 			</a-form-item>
-			<a-form-item label="分类" hasFeedback>
+			<a-form-item label="分类">
 				<a-select>
-					<a-select-option value=".Net">.Net</a-select-option>
-					<a-select-option value=".Net Core"
-						>.Net Core</a-select-option
-					>
+					<a-select-option
+						v-for="item in categories"
+						:key="item.id"
+						v-text="item.name"
+						:value="item.id"
+					></a-select-option>
 				</a-select>
 			</a-form-item>
 			<a-form-item label="标签">
-				<a-select mode="multiple" :defaultValue="['a1', 'b2']">
+				<a-select mode="multiple" v-model="categories.tags">
 					<a-select-option
-						v-for="i in 25"
-						:key="(i + 9).toString(36) + i"
-						>{{ (i + 9).toString(36) + i }}</a-select-option
-					>
+						v-for="item in tags"
+						:key="item.id"
+						:value="item.id"
+						v-text="item.name"
+					></a-select-option>
 				</a-select>
 			</a-form-item>
 			<a-form-item label="访问量">
@@ -55,16 +58,15 @@
 					<a-radio :value="1">
 						发布
 					</a-radio>
-					<a-radio v-if="IsUpdate" :value="2">
+					<a-radio v-if="isUpdate" :value="2">
 						删除
 					</a-radio>
 				</a-radio-group>
 			</a-form-item>
 			<a-form-item label="置顶">
-				<a-switch>
-				</a-switch>
+				<a-switch> </a-switch>
 			</a-form-item>
-			<a-form-item v-if="IsUpdate" label="发布时间">
+			<a-form-item v-if="isUpdate" label="发布时间">
 				<a-date-picker
 					:locale="locale.date_picker"
 					show-time
@@ -81,6 +83,10 @@
 </template>
 
 <script>
+import caregoryService from "../services/CategoryService";
+import tagService from "../services/TagService";
+import articleService from "../services/ArticleService";
+import { reject } from "../shared/AxiosHelper";
 import EditorWrapper from "@/components/EditorWrapper";
 import LocaleDateTime from "@/shared/LocalDateTime";
 
@@ -100,24 +106,79 @@ export default {
 				labelCol: { span: 4 },
 				wrapperCol: { span: 18 }
 			},
-			editorType: "MARKDOWN",
-			article: {}
+			article: {
+				editorType: "MARKDOWN"
+			},
+			categories: [],
+			tags: [],
+			id: this.$route.params.id,
+			form: this.$form.createForm(this, { name: "article" })
 		};
 	},
 	computed: {
 		mode() {
 			return this.article.id ? UPDATE : ADD;
 		},
-		IsAdd() {
+		isAdd() {
 			return this.mode === ADD;
 		},
-		IsUpdate() {
+		isUpdate() {
 			return this.mode === UPDATE;
 		}
 	},
 	created() {
-		this.id = this.$route.params.id;
-		console.log(this.mode);
+		this.initialize();
+		this.load();
+	},
+	methods: {
+		initialize() {
+			const _this = this;
+
+			caregoryService
+				.getAllEnabled()
+				.then(resp => {
+					_this.categories = resp.data;
+				})
+				.catch(console.error);
+
+			tagService
+				.getAllEnabled()
+				.then(resp => {
+					_this.tags = resp.data;
+				})
+				.catch(console.error);
+		},
+		load() {
+			const _this = this;
+
+			if (_this.id) {
+				articleService
+					.get(_this.id)
+					.then(resp => {
+						_this.article = resp.data;
+					})
+					.catch(error => reject(_this, error));
+			}
+		},
+		save() {
+			const _this = this;
+			const _form = this.form;
+
+			_form.validateFields((error, values) => {
+				if (error) {
+					return;
+				}
+
+				articleService
+					.addOrUpdate(_this.article)
+					.then(resp => {
+						_this.article = resp.data;
+						_this.id = _this.article.id;
+						_this.load();
+					})
+					.catch(error => reject(_this, error));
+			});
+		}
 	}
 };
 </script>

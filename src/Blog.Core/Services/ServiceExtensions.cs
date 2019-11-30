@@ -9,6 +9,7 @@ namespace Blog.Core.Services
             builder.RegisterType(typeof(ArticleService)).AsImplementedInterfaces().InstancePerLifetimeScope();
             builder.RegisterType(typeof(CategoryService)).AsImplementedInterfaces().InstancePerLifetimeScope();
             builder.RegisterType(typeof(CommentService)).AsImplementedInterfaces().InstancePerLifetimeScope();
+            builder.RegisterType(typeof(TagService)).AsImplementedInterfaces().InstancePerLifetimeScope();
         }
     }
 }

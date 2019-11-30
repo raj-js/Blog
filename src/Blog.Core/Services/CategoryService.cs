@@ -4,6 +4,7 @@ using Blog.Core.Models;
 using Sparrow.Core.DTOs.Responses;
 using Sparrow.Core.Services;
 using Sparrow.Core.Stores;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using static Sparrow.Core.DTOs.Responses.OpResponse;
@@ -23,37 +24,6 @@ namespace Blog.Core.Services
         {
             _articleCategoryStore = articleCategoryStore;
             _articleStore = articleStore;
-        }
-
-        public async Task<OpResponse<string>> GetCover(int id)
-        {
-            var category = await Store.FindAsync(id);
-            if (category == null)
-                return Failure<string>("404", "分类不存在");
-
-            return Success(category.Cover);
-        }
-
-        protected override CategoryDTO ToListItemDTO(Category entity)
-        {
-            var dto = base.ToListItemDTO(entity);
-
-            var (Temperature, Articles) = GetCategoryProps(entity);
-            dto.Articles = Articles;
-            dto.Temperature = Temperature;
-
-            return dto;
-        }
-
-        protected override CategoryDTO ToDTO(Category entity)
-        {
-            var dto = base.ToDTO(entity);
-
-            var (Temperature, Articles) = GetCategoryProps(entity);
-            dto.Articles = Articles;
-            dto.Temperature = Temperature;
-
-            return dto;
         }
 
         #region privates
@@ -80,5 +50,51 @@ namespace Blog.Core.Services
         }
 
         #endregion
+
+        #region overrides
+
+        protected override CategoryDTO ToListItemDTO(Category entity)
+        {
+            var dto = base.ToListItemDTO(entity);
+
+            var (Temperature, Articles) = GetCategoryProps(entity);
+            dto.Articles = Articles;
+            dto.Temperature = Temperature;
+
+            return dto;
+        }
+
+        protected override CategoryDTO ToDTO(Category entity)
+        {
+            var dto = base.ToDTO(entity);
+
+            var (Temperature, Articles) = GetCategoryProps(entity);
+            dto.Articles = Articles;
+            dto.Temperature = Temperature;
+
+            return dto;
+        }
+
+        #endregion
+
+        public async Task<OpResponse<string>> GetCover(int id)
+        {
+            var category = await Store.FindAsync(id);
+            if (category == null)
+                return Failure<string>("404", "分类不存在");
+
+            return Success(category.Cover);
+        }
+
+        public OpResponse<List<CategoryDTO>> GetEnabledCategories()
+        {
+            var categories = Store
+                .Query()
+                .Where(s => s.Enable)
+                .Select(ToListItemDTO)
+                .ToList();
+
+            return Success(categories);
+        }
     }
 }

@@ -1,21 +1,27 @@
 import axios from "axios";
 import { simplifyResponse } from "./Simplify";
 
-const simplity = simplifyResponse;
+const simplify = simplifyResponse;
 
 class TagService {
-	async getAllTags() {
+	async all() {
 		const response = await axios.get("/api/Tag/all");
 
-		return simplity(response);
+		return simplify(response);
 	}
 
-	async addOrUpdateTag(tag) {
+	async addOrUpdate(tag) {
 		const response = tag.id
 			? await axios.put("/api/Tag", tag)
 			: await axios.post("/api/Tag", tag);
 
-		return simplity(response);
+		return simplify(response);
+	}
+
+	async getAllEnabled() {
+		const response = await axios.get("/api/Tag/all/enabled");
+
+		return simplify(response);
 	}
 }
 

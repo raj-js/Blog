@@ -103,9 +103,9 @@
 </template>
 
 <script>
-import { simplifyReject } from "../services/Simplify";
 import { getBase64 } from "../shared/UploadUtil";
 import categoryService from "../services/CategoryService";
+import { reject } from "../shared/AxiosHelper";
 
 export default {
 	data() {
@@ -131,11 +131,11 @@ export default {
 			const _this = this;
 
 			categoryService
-				.getAllCategories()
+				.all()
 				.then(resp => {
 					_this.categories = resp.data;
 				})
-				.catch(_this.reject);
+				.catch(error => reject(_this, error));
 		},
 		select(category) {
 			this.category = { ...category };
@@ -148,28 +148,19 @@ export default {
 					return;
 				}
 				categoryService
-					.addOrUpdateCategory(_this.category)
+					.addOrUpdate(_this.category)
 					.then(resp => {
 						_this.category = resp.data;
 						this.load();
 						_this.$message.success("操作成功！");
 					})
-					.catch(_this.reject);
+					.catch(error => reject(_this, error));
 
 				_form.resetFields();
 			});
 		},
 		reset() {
 			this.category = {};
-		},
-		reject(error) {
-			const _this = this;
-			simplifyReject(
-				error,
-				() => _this.$message.error(`请求失败，状态码：${error}`),
-				() => _this.$message.error(`请求失败，错误信息：${error}`),
-				() => _this.$message.error(`请求失败，未知错误：${error}`)
-			);
 		},
 		handleChange(info) {
 			if (info.file.status === "uploading") {

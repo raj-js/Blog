@@ -83,6 +83,12 @@
             </summary>
             <param name="categoryService"></param>
         </member>
+        <member name="M:Blog.Api.Controllers.CategoryController.GetEnabledCategories">
+            <summary>
+            获取所有启用的分类
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:Blog.Api.Controllers.CommentController">
             <summary>
             评论接口
@@ -99,11 +105,17 @@
             标签
             </summary>
         </member>
-        <member name="M:Blog.Api.Controllers.TagController.#ctor(Sparrow.Core.Services.IAppService{Blog.Core.Models.Tag,System.Int32,Blog.Core.DTOs.TagCreateDTO,Blog.Core.DTOs.TagDTO,Blog.Core.DTOs.TagDTO})">
+        <member name="M:Blog.Api.Controllers.TagController.#ctor(Blog.Core.Services.ITagService)">
             <summary>
             构造器
             </summary>
-            <param name="curlService"></param>
+            <param name="tagService"></param>
+        </member>
+        <member name="M:Blog.Api.Controllers.TagController.GetEnabledCategories">
+            <summary>
+            获取所有启用的分类
+            </summary>
+            <returns></returns>
         </member>
         <member name="T:Blog.Api.Program">
             <summary>

@@ -76,7 +76,7 @@
 </template>
 
 <script>
-import { simplifyReject } from "../services/Simplify";
+import { reject } from "../shared/AxiosHelper";
 import tagService from "../services/TagService";
 
 export default {
@@ -95,11 +95,11 @@ export default {
 			const _this = this;
 
 			tagService
-				.getAllTags()
+				.all()
 				.then(resp => {
 					this.tags = resp.data;
 				})
-				.catch(_this.reject);
+				.catch(error => reject(_this, error));
 		},
 		select(tag) {
 			this.tag = { ...tag };
@@ -115,28 +115,19 @@ export default {
 				}
 
 				tagService
-					.addOrUpdateTag(_this.tag)
+					.addOrUpdate(_this.tag)
 					.then(resp => {
 						_this.tag = resp.data;
 						_this.load();
 						_this.$message.success("操作成功");
 					})
-					.catch(_this.reject);
+					.catch(error => reject(_this, error));
 
 				_form.resetFields();
 			});
 		},
 		reset() {
 			this.tag = {};
-		},
-		reject(error) {
-			const _this = this;
-			simplifyReject(
-				error,
-				() => _this.$message.error(`请求失败，状态码：${error}`),
-				() => _this.$message.error(`请求失败，错误信息：${error}`),
-				() => _this.$message.error(`请求失败，未知错误：${error}`)
-			);
 		}
 	}
 };
