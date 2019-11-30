@@ -4,12 +4,15 @@ import { simplifyResponse } from "./Simplify";
 const simplify = simplifyResponse;
 
 class ArticleService {
-	paging() {
-		console.log("ArticleService output");
+	async paging(index, size) {
+		const response = await axios.get(
+			`/api/Article/paging?PageIndex=${index}&PageSize=${size}`
+		);
+		return simplify(response);
 	}
 
 	async get(id) {
-		let response = await axios.get(`/api/Article/${id}`);
+		const response = await axios.get(`/api/Article/${id}`);
 		return simplify(response);
 	}
 

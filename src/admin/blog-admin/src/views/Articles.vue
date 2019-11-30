@@ -17,7 +17,7 @@
 		<a-table
 			:columns="cols"
 			:locale="local"
-			:dataSource="dataSource"
+			:dataSource="articles"
 			:rowKey="v => v.id"
 		>
 			<template v-slot:row_title="title">
@@ -36,9 +36,8 @@
 </template>
 
 <script>
-import articleService from "@/services/ArticleService";
-
-articleService.getArticles();
+import { reject } from "../shared/AxiosHelper";
+import articleService from "../services/ArticleService";
 
 export default {
 	data() {
@@ -86,7 +85,7 @@ export default {
 					scopedSlots: { customRender: "row_ops" }
 				}
 			],
-			dataSource: [
+			articles: [
 				{
 					id: 1,
 					title: "ASP.NET Core开发者成长路线图",
@@ -97,8 +96,26 @@ export default {
 					status: "已发布",
 					creation: "2019-09-09"
 				}
-			]
+			],
+			pagination: {
+				current: 1,
+				showQuickJumper: true,
+				showSizeChanger: true
+			},
+			pageIndex: 1,
+			pageSize: 10
 		};
+	},
+	methods: {
+		load() {
+			const _this = this;
+			articleService
+				.paging(_this.pageIndex, _this.pageSize)
+				.then(resp => {
+					this.articles = resp.data;
+				})
+				.catch(error => reject(_this, error));
+		}
 	}
 };
 </script>
